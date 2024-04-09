@@ -1,14 +1,12 @@
-import { Link } from "expo-router";
+import { Link, Redirect } from "expo-router";
 import React from "react";
 import { Text, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 export default function Page() {
   return (
-    <View className="flex flex-1">
-      <Header />
-      <Content />
-      <Footer />
+    <View className="flex flex-1 bg-slate-800 text-gray-200">
+      <Redirect href="/auth" />
     </View>
   );
 }
@@ -21,7 +19,7 @@ function Content() {
           <View className="flex flex-col items-center gap-4 text-center">
             <Text
               role="heading"
-              className="text-3xl text-center native:text-5xl font-bold tracking-tighter sm:text-4xl md:text-5xl lg:text-6xl"
+              className="text-gray-200 text-3xl text-center native:text-5xl font-bold tracking-tighter sm:text-4xl md:text-5xl lg:text-6xl"
             >
               Welcome to Project ACME
             </Text>
@@ -56,7 +54,7 @@ function Header() {
         <View className="flex flex-row gap-4 sm:gap-6">
           <Link
             className="text-md font-medium hover:underline web:underline-offset-4"
-            href="/"
+            href="/auth"
           >
             About
           </Link>
