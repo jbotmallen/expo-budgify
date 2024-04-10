@@ -1,5 +1,5 @@
 import React from 'react';
-import { Image, Modal, Pressable, Text, TextInput, View } from "react-native";
+import { Image, Modal, Pressable, Text, View } from "react-native";
 import { router } from 'expo-router';
 
 const Page = () => {
