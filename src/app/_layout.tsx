@@ -2,9 +2,10 @@ import "../global.css";
 import { Slot, router, useSegments } from "expo-router";
 import { AuthProvider, useAuth } from "../utils/context/AuthContext"
 import { useEffect } from "react";
+import { ActivityIndicator } from "react-native";
 
 const MainLayout = () => {
-  const { isAuthenticated } = useAuth();
+  const { isAuthenticated, user } = useAuth();
   const segments = useSegments();
 
   useEffect(() => {
@@ -18,6 +19,8 @@ const MainLayout = () => {
       router.replace('/auth/');
     }
   }, [isAuthenticated]);
+
+  if(user === false) return <ActivityIndicator size={96} color='white' />
 
   return <Slot />
 }

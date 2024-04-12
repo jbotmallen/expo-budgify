@@ -8,12 +8,12 @@ export default function Navbar() {
   const currentPath = usePathname();
 
   return (
-    <View className="bg-slate-900 h-32 w-screen">
+    <View className="bg-slate-900 h-20 w-screen">
       <View className='h-full w-full flex flex-row justify-between items-center px-16'>
         {routes.map((route, index) => (
           <CustomLinks
             key={index}
-            icon={<MaterialIcons name={route.icon as keyof typeof MaterialIcons.glyphMap} size={35} color={`${currentPath === route.path ? "white" : "gray"}`} />}
+            icon={<MaterialIcons name={route.icon as keyof typeof MaterialIcons.glyphMap} size={25} color={`${currentPath === route.path ? "white" : "gray"}`} />}
             text={route.name}
             link={route.path}
             path={currentPath}
@@ -28,10 +28,8 @@ const CustomLinks = ({ icon, text, link, path }) => {
 
   return (
     <Link href={link} disabled={link === path}>
-      <View className='h-full flex flex-col justify-center items-center gap-3'>
-        <View>
-          {icon}
-        </View>
+      <View className='h-full flex flex-col justify-center items-center gap-0'>
+        {icon}
         <Text className={`${path === link ? "text-gray-100" : "text-gray-600"} font-medium text-xl`}>{text}</Text>
       </View>
     </Link>

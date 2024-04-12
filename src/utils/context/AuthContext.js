@@ -11,11 +11,13 @@ import { errorChecks } from "../../constants/checks";
 export const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
-  const [user, setUser] = useState(null);
+  const [user, setUser] = useState(null | false | undefined);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
+      setUser(false);
+      
       if (user) {
         setUser(user);
         setIsAuthenticated(true);

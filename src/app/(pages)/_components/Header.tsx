@@ -4,7 +4,7 @@ import { useAuth } from '@/utils/context/AuthContext';
 import { SimpleLineIcons } from '@expo/vector-icons';
 
 export default function Header() {
-    const { logout, user } = useAuth();
+    const { logout } = useAuth();
 
     const handleLogout = async () => {
         const res = await logout();
@@ -12,11 +12,11 @@ export default function Header() {
     }
 
     return (
-        <View className="bg-slate-950 p-5 w-screen h-28 fixed flex justify-center rounded-b-xl top-0">
-            <View className='w-full flex'>
-                <Text className='text-slate-400 text-4xl tracking-wider text-left flex'>BUDGIFY</Text>
-                <Pressable className='absolute right-0 top-0' onPress={() => handleLogout()}>
-                    <SimpleLineIcons name="logout" size={26} color="white" />
+        <View className="bg-slate-950 p-5 w-screen h-16 fixed flex justify-center rounded-b-xl top-0">
+            <View className='w-full flex flex-row justify-between items-center'>
+                <Text className='text-slate-400 text-2xl tracking-wider text-left'>BUDGIFY</Text>
+                <Pressable onPress={() => handleLogout()}>
+                    <SimpleLineIcons name="logout" size={20} color="white" />
                 </Pressable>
             </View>
         </View>

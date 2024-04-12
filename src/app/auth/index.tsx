@@ -1,8 +1,10 @@
 import React from 'react';
-import { Image, Modal, Pressable, Text, View } from "react-native";
+import { Dimensions, Image, Modal, Pressable, Text, View } from "react-native";
 import { router } from 'expo-router';
 
 const Page = () => {
+    const dimensions = Dimensions.get('window');
+
     return (
         <>
             <Modal animationType='fade'>
@@ -14,8 +16,8 @@ const Page = () => {
                         className='w-full h-1/2 mx-auto'
                     />
                     <View className='flex flex-row'>
-                        <Text className='text-5xl font-semibold tracking-widest text-gray-400'>Welcome to</Text>
-                        <Text className='text-5xl font-semibold tracking-widest text-gray-300'> Budgify!</Text>
+                        <Text className='text-4xl font-semibold tracking-widest text-gray-400'>Welcome to</Text>
+                        <Text className='text-4xl font-semibold tracking-widest text-gray-300'> Budgify!</Text>
                     </View>
                     <View className='w-full h-1/4 flex flex-col items-center justify-center gap-10'>
                         <Pressable
