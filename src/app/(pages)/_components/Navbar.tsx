@@ -8,12 +8,12 @@ export default function Navbar() {
   const currentPath = usePathname();
 
   return (
-    <View className="bg-slate-900 h-20 w-screen">
+    <View className="bg-slate-900 h-[10%] w-screen">
       <View className='h-full w-full flex flex-row justify-between items-center px-16'>
         {routes.map((route, index) => (
           <CustomLinks
             key={index}
-            icon={<MaterialIcons name={route.icon as keyof typeof MaterialIcons.glyphMap} size={25} color={`${currentPath === route.path ? "white" : "gray"}`} />}
+            icon={<MaterialIcons name={route.icon as keyof typeof MaterialIcons.glyphMap} size={30} color={`${currentPath === route.path ? "white" : "gray"}`} />}
             text={route.name}
             link={route.path}
             path={currentPath}

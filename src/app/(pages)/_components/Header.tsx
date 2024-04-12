@@ -12,7 +12,7 @@ export default function Header() {
     }
 
     return (
-        <View className="bg-slate-950 p-5 w-screen h-16 fixed flex justify-center rounded-b-xl top-0">
+        <View className="bg-slate-950 p-5 w-screen h-[8%] fixed flex justify-center rounded-b-xl top-0">
             <View className='w-full flex flex-row justify-between items-center'>
                 <Text className='text-slate-400 text-2xl tracking-wider text-left'>BUDGIFY</Text>
                 <Pressable onPress={() => handleLogout()}>

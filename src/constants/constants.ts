@@ -27,3 +27,11 @@ export const routes = [
  export const numbers = [
    '7', '4', '1', '0', '8', '5', '2', '.', '9', '6', '3'
  ]
+
+ export const expenseChoices = [
+   'Food', 'Transport', 'Health', 'Leisure', 'Education', 'Others'
+ ]
+
+ export const categoryChoices = [
+   'Income', 'Expense'
+ ]
