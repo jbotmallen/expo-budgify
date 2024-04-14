@@ -24,7 +24,7 @@ export default function Home() {
   const savings = budget.filter((item) => item.category == 'Income');
 
   return (
-    <View className="p-10 h-4/5 bg-slate-800 relative flex-1 gap-10">
+    <View className="p-10 h-[82%] w-full bg-slate-800 relative flex-1 gap-10">
       <Text className='font-bold text-slate-400 text-4xl tracking-widest text-left flex'>Hello,
         <Text className='text-slate-300'>{" "} {user?.email.split("@")[0]}!</Text>
       </Text>

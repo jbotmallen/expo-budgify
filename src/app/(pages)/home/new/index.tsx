@@ -144,7 +144,7 @@ export default function Add() {
                     )}
                 </View>
             </Modal >
-            <Modal animationType="fade" transparent={false} visible={visible !== ''}>
+            <Modal animationType="slide" transparent={false} visible={visible !== ''}>
                 <View className='h-full w-full bg-slate-200 flex items-center justify-center relative'>
                     <Ionicons name="close" size={50} color="gray" onPress={() => setVisible('')} className='absolute top-8 right-10 z-10' />
                     <ScrollView
