@@ -35,3 +35,7 @@ export const routes = [
  export const categoryChoices = [
    'Income', 'Expense'
  ]
+
+ export const expenseIcons = [
+   'fast-food', 'car', 'medkit', 'tennisball', 'school', 'add-circle'
+ ]
