@@ -96,10 +96,10 @@ export default function Records() {
               <TagPressables title={tag} selected={selected} setSelected={setSelected} key={tag} />
             ))}
           </View>
-          <ScrollView className='w-full h-[80%] max-h-[60%] pt-5'>
+          <ScrollView className='w-full max-h-[65%] pt-5'>
             {filteredRecords.length <= 0 ? <Text className='mx-auto text-gray-300 text-5xl'>No data found.</Text> : filteredRecords.map((record) => (
               <View className='w-full h-fit max-h-52 border-4 border-slate-400 rounded-3xl flex flex-row justify-between items-center py-5 px-8 mb-6' key={record.id}>
-                <View className='w-4/5 h-full flex flex-col gap-1 justify-center item-start'>
+                <View className='w-3/5 h-full flex flex-col gap-1 justify-center item-start'>
                   {editing && editId === record.id ? (
                     <TextInput
                       placeholder={record.description || 'Description'}
@@ -111,9 +111,9 @@ export default function Records() {
                     <Text className='text-3xl text-slate-400 font-bold'>{record.description}</Text>
                   )}
                   <Text className='text-xl text-slate-400 font-semibold'>{convertDateToString(record.date)}</Text>
-                  <Text className='text-xl text-slate-900 font-semibold bg-slate-400 max-w-[30%] text-center px-3 py-0.5 rounded-full'>{record.expenses}</Text>
+                  <Text className='text-xl text-slate-900 font-semibold bg-slate-400 max-w-[50%] text-center px-3 py-0.5 rounded-full'>{record.expenses}</Text>
                 </View>
-                <View className='w-1/5 h-full flex flex-col items-end justify-around'>
+                <View className='w-2/5 h-full flex flex-col items-end justify-around'>
                   <View className='w-full flex flex-row items-center justify-end gap-3'>
                     {editing && editId === record.id ? (
                       <>
