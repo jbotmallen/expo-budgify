@@ -1,16 +1,16 @@
 import { StyleSheet, Text, View, Pressable } from "react-native";
 import React from "react";
 
-export default function CashFlowHeader({ category, amount }) {
+export default function CashFlowHeader({ category, data }) {
   const secondTextStyle =
-    category === "Expense" ? styles.textRed : styles.textGreen;
+    category === "Expenses" ? styles.textRed : styles.textGreen;
 
   return (
     <Pressable style={styles.container}>
       <Text style={styles.text} className="text-slate-400">
         {category}
       </Text>
-      <Text style={secondTextStyle}>{amount}</Text>
+      <Text style={secondTextStyle}> ₱ {data.toFixed(2)}</Text>
     </Pressable>
   );
 }
