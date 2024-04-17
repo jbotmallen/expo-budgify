@@ -93,7 +93,7 @@ export default function Analytics() {
       <View style={styles.cashFlowHeadersContainer}>
         <CashFlowHeader category="Expenses" data={expenses_total} />
         <CashFlowHeader category="Income" data={savings_total} />
-        <CashFlowHeader category="Total Cash Flow" data={total_cash_flow} />
+        <CashFlowHeader category="Cash Flow" data={total_cash_flow} />
       </View>
 
       <DataViz data={sumPerCategory} />

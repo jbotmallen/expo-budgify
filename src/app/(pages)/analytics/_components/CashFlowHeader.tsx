@@ -7,7 +7,7 @@ export default function CashFlowHeader({ category, data }) {
 
   return (
     <Pressable style={styles.container}>
-      <Text style={styles.text} className="text-slate-400 text-2xl">
+      <Text style={styles.text} className="text-slate-400 text-xl">
         {category}
       </Text>
       <Text style={secondTextStyle}> ₱ {data.toFixed(2)}</Text>
@@ -20,8 +20,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    height: "100%",
-    gap: 10,
+    height: "40%",
   },
   text: {
     fontWeight: "900",
