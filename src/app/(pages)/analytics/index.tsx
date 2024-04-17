@@ -87,8 +87,9 @@ export default function Analytics() {
     });
     return categoryTotals;
   };
+
   return (
-    <View className="h-screen w-screen bg-slate-800 space-y-2">
+    <View style={styles.container}>
       <MonthYearView />
       <View style={styles.cashFlowHeadersContainer}>
         <CashFlowHeader category="Expenses" data={expenses_total} />
@@ -97,18 +98,16 @@ export default function Analytics() {
       </View>
 
       <DataViz data={sumPerCategory} />
-      <Text className="text-white text-2xl mt-5 font-medium self-center">
-        BREAKDOWN
-      </Text>
-      <ScrollView className="flex-grow-1" style={{ margin: 15 }}>
+      <Text style={styles.breakdownTitle}>BREAKDOWN</Text>
+      <ScrollView contentContainerStyle={styles.scrollViewContent}>
         {sumPerCategory.map((choice, index) => (
           <ExpensesCard key={index} data={choice} />
         ))}
-        <View className="h-12"></View>
       </ScrollView>
     </View>
   );
 }
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -121,41 +120,14 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     borderBottomColor: "#2D3748",
   },
-  expensesScrollView: {
-    flex: 1,
-    backgroundColor: "#1A202C",
-  },
-  dropdownButton: {
-    backgroundColor: "#718096",
-    paddingVertical: 10,
-    paddingHorizontal: 20,
-    borderRadius: 5,
-    alignSelf: "center",
-    width: "70%",
+  breakdownTitle: {
+    color: "white",
+    fontSize: 20,
+    textAlign: "center",
     marginTop: 10,
   },
-  dropdownButtonText: {
-    color: "white",
-    fontSize: 16,
-  },
-  modalContainer: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "rgba(0, 0, 0, 0.5)",
-  },
-  modalContent: {
-    backgroundColor: "white",
-    padding: 20,
-    borderRadius: 10,
-    elevation: 5,
-  },
-  option: {
-    paddingVertical: 10,
-    borderBottomWidth: 1,
-    borderBottomColor: "#ccc",
-  },
-  optionText: {
-    fontSize: 16,
+  scrollViewContent: {
+    flexGrow: 1,
+    marginHorizontal: 15,
   },
 });

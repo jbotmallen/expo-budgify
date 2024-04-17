@@ -17,7 +17,7 @@ export default function Home() {
       setBudget(data);
     };
     fetchBudget();
-  }, []);
+  }, [budget]);
 
   const currentMonth = new Date().toLocaleString("default", { month: "long" }); // Get current month name (e.g., "April")
   const formatDate = (timestamp) => {
