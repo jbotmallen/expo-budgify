@@ -35,7 +35,3 @@ export const routes = [
  export const categoryChoices = [
    'Income', 'Expense'
  ]
-
- export const recordTags = [
-    'Expense', 'Income', 'Transfer'
- ]
