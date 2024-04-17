@@ -88,7 +88,7 @@ export default function Analytics() {
     return categoryTotals;
   };
   return (
-    <View className="h-full w-full bg-slate-800">
+    <View className="h-screen w-screen bg-slate-800 space-y-2">
       <MonthYearView />
       <View style={styles.cashFlowHeadersContainer}>
         <CashFlowHeader category="Expenses" data={expenses_total} />
@@ -104,6 +104,7 @@ export default function Analytics() {
         {sumPerCategory.map((choice, index) => (
           <ExpensesCard key={index} data={choice} />
         ))}
+        <View className="h-12"></View>
       </ScrollView>
     </View>
   );

@@ -35,7 +35,10 @@ export const routes = [
  export const categoryChoices = [
    'Income', 'Expense'
  ]
-
+ export const recordTags = [
+    'Expense', 'Income', 'Transfer'
+ ]
+ 
  export const expenseIcons = [
    'fast-food', 'car', 'medkit', 'tennisball', 'school', 'add-circle'
  ]

@@ -1,13 +1,12 @@
 import { StyleSheet, Text, View, Dimensions } from "react-native";
 import { choiceIconPair } from "@/constants/constants";
 import { Ionicons } from "@expo/vector-icons";
-import React, { useState } from "react";
+import React from "react";
 
 const ExpensesCard = ({ data }) => {
-  const [barWidth, setBarWidth] = useState(0);
   const iconPair = choiceIconPair.find((pair) => pair.category === data.name);
   const iconName = iconPair ? iconPair.icon : "add-circle";
-  const remainingPercentage = 100 - data.percentage;
+  const barWidth = data.percentage / 100;
 
   return (
     <View style={styles.card}>
@@ -31,22 +30,7 @@ const ExpensesCard = ({ data }) => {
             <Text style={styles.label}>{data.name}</Text>
             <Text style={styles.label}> ₱ {data.amount.toFixed(2)}</Text>
           </View>
-          <View style={styles.progressBarContainer}>
-            <View
-              style={{
-                ...styles.progressBar,
-                width: `${data.percentage}%`,
-              }}
-            />
-
-            <View
-              style={{
-                ...styles.progressBar,
-                width: `${remainingPercentage}%`,
-                backgroundColor: "gray",
-              }}
-            />
-          </View>
+          <View className={`bg-white h-1 w-${data.percentage}`}></View>
         </View>
 
         <View>
@@ -71,17 +55,6 @@ const styles = StyleSheet.create({
     borderRadius: 15,
     borderColor: "#718096",
     marginVertical: 5,
-  },
-
-  progressBarContainer: {
-    flex: 1,
-    height: "100%",
-    flexDirection: "row",
-  },
-  progressBar: {
-    backgroundColor: "white",
-    borderRadius: 5,
-    height: 4,
   },
   label: {
     fontSize: 16,

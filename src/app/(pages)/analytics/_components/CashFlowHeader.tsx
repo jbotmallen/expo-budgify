@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, Pressable } from "react-native";
+import { StyleSheet, Text, Pressable } from "react-native";
 import React from "react";
 
 export default function CashFlowHeader({ category, data }) {
@@ -7,7 +7,7 @@ export default function CashFlowHeader({ category, data }) {
 
   return (
     <Pressable style={styles.container}>
-      <Text style={styles.text} className="text-slate-400">
+      <Text style={styles.text} className="text-slate-400 text-2xl">
         {category}
       </Text>
       <Text style={secondTextStyle}> ₱ {data.toFixed(2)}</Text>
@@ -20,8 +20,8 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-
-    height: "40%",
+    height: "100%",
+    gap: 10,
   },
   text: {
     fontWeight: "900",
