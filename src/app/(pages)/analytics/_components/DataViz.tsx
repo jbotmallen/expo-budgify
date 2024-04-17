@@ -1,34 +1,47 @@
 import React from "react";
-import { View, Text } from "react-native";
+import { View } from "react-native";
 import { PieChart } from "react-native-chart-kit";
-import { useBudget } from "@/utils/context/BudgetContext";
-import { useAuth } from "@/utils/context/AuthContext";
 
-const DataViz = () => {
-  const data = [
-    { name: "Groceries", amount: 400, color: "#FF6384" },
-    { name: "Entertainment", amount: 300, color: "#36A2EB" },
-    { name: "Transportation", amount: 200, color: "#FFCE56" },
-    { name: "Dining", amount: 500, color: "#4CAF50" },
-    { name: "Utilities", amount: 600, color: "#9575CD" },
-  ];
+const DataViz = ({ data }) => {
+  const randomizeColors = () => {
+    return data.map(() => {
+      let color = `#${Math.floor(Math.random() * 16777215).toString(16)}`;
+      if (/^#[0-9A-F]{6}$/i.test(color)) {
+        return color;
+      } else {
+        return `#${Math.floor(Math.random() * 16777215).toString(16)}`;
+      }
+    });
+  };
+
+  // Pre-process data to include custom colors for each segment
+  const chartData = data.map((item, index) => ({
+    ...item,
+    color: randomizeColors()[index],
+  }));
+
+  const chartConfig = {
+    backgroundColor: "#fff",
+    backgroundGradientFrom: "#fff",
+    backgroundGradientTo: "#fff",
+    color: (opacity = 1) => "white",
+    labelColor: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
+    propsForLabels: {
+      fontSize: 12,
+    },
+  };
 
   return (
     <View>
       <PieChart
-        data={data}
+        data={chartData}
         width={350}
         height={220}
-        chartConfig={{
-          backgroundColor: "#fff",
-          backgroundGradientFrom: "#fff",
-          backgroundGradientTo: "#fff",
-          color: (opacity = 1) => "white",
-          // labelColor: "#fff", // Change text color
-        }}
+        chartConfig={chartConfig}
         accessor="amount"
         backgroundColor="transparent"
-        paddingLeft="50 "
+        paddingLeft="50"
+        style={{ marginBottom: 10 }}
       />
     </View>
   );

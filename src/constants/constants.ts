@@ -39,3 +39,8 @@ export const routes = [
  export const expenseIcons = [
    'fast-food', 'car', 'medkit', 'tennisball', 'school', 'add-circle'
  ]
+
+ export const choiceIconPair = expenseChoices.map((category, index) => ({
+  category: category,
+  icon: expenseIcons[index]
+}));

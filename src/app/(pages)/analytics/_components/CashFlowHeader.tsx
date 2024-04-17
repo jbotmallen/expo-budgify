@@ -15,7 +15,6 @@ export default function CashFlowHeader({ category, data }) {
   );
 }
 
-//comment
 const styles = StyleSheet.create({
   container: {
     flex: 1,
