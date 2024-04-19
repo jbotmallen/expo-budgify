@@ -17,18 +17,27 @@ export default function CashFlowHeader({ category, data }) {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    display: "flex",
+    flexDirection: "column",
     justifyContent: "center",
     alignItems: "center",
-    height: "40%",
+    gap: 5,
+    height: "100%",
+    width: "33%",
+    padding: 10,
+    backgroundColor: "#0008",
+    borderRadius: 10,
   },
   text: {
     fontWeight: "900",
+    fontSize: 24,
   },
   textRed: {
     color: "red",
+    fontSize: 24,
   },
   textGreen: {
     color: "green",
+    fontSize: 24,
   },
 });

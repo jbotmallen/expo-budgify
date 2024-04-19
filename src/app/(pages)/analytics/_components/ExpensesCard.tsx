@@ -6,7 +6,6 @@ import React from "react";
 const ExpensesCard = ({ data }) => {
   const iconPair = choiceIconPair.find((pair) => pair.category === data.name);
   const iconName = iconPair ? iconPair.icon : "add-circle";
-  console.log(data.percentage / 100);
 
   // Calculate the remaining percentage
   const remainingPercentage = 100 - data.percentage;
@@ -25,11 +24,11 @@ const ExpensesCard = ({ data }) => {
         }
         size={40}
         color="#f3f3f3"
-        className="text-slate-400 w-1/6 me-1"
+        className="text-slate-400 w-fit mr-5 bg-[#2D3748] rounded-full p-2"
       />
       <View className="flex-row justify-between items-center w-5/6">
         <View className="flex flex-col w-2/3 gap-3">
-          <View className="flex flex-row gap-1 items-center justify-between">
+          <View className="h-1/2 flex flex-row gap-1 items-center justify-between">
             <Text style={styles.label}>{data.name}</Text>
             <Text style={styles.label}> ₱ {data.amount.toFixed(2)}</Text>
           </View>
@@ -88,7 +87,7 @@ const styles = StyleSheet.create({
     height: 4,
   },
   label: {
-    fontSize: 16,
+    fontSize: 20,
     color: "white",
   },
 });

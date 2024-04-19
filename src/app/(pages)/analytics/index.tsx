@@ -115,10 +115,11 @@ const styles = StyleSheet.create({
   },
   cashFlowHeadersContainer: {
     flexDirection: "row",
+    height: "20%",
+    width: "100%",
     backgroundColor: "#1A202C",
     padding: 10,
-    borderBottomWidth: 1,
-    borderBottomColor: "#2D3748",
+    gap: 5,
   },
   breakdownTitle: {
     color: "white",

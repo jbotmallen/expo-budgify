@@ -1,23 +1,13 @@
 import React from "react";
 import { View } from "react-native";
 import { PieChart } from "react-native-chart-kit";
+import { hexColors } from "@/constants/constants";
 
 const DataViz = ({ data }) => {
-  const randomizeColors = () => {
-    return data.map(() => {
-      let color = `#${Math.floor(Math.random() * 16777215).toString(16)}`;
-      if (/^#[0-9A-F]{6}$/i.test(color)) {
-        return color;
-      } else {
-        return `#${Math.floor(Math.random() * 16777215).toString(16)}`;
-      }
-    });
-  };
-
   // Pre-process data to include custom colors for each segment
   const chartData = data.map((item, index) => ({
     ...item,
-    color: randomizeColors()[index],
+    color: hexColors[index],
   }));
 
   const chartConfig = {
@@ -32,7 +22,7 @@ const DataViz = ({ data }) => {
   };
 
   return (
-    <View>
+    <View className="w-[95%] rounded-lg flex items-center justify-center bg-slate-300 p-3 mx-auto">
       <PieChart
         data={chartData}
         width={350}
@@ -40,8 +30,7 @@ const DataViz = ({ data }) => {
         chartConfig={chartConfig}
         accessor="amount"
         backgroundColor="transparent"
-        paddingLeft="50"
-        style={{ marginBottom: 10 }}
+        paddingLeft="15"
       />
     </View>
   );
