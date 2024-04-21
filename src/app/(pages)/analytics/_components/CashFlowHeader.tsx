@@ -3,14 +3,14 @@ import React from "react";
 
 export default function CashFlowHeader({ category, data }) {
   const secondTextStyle =
-    category === "Expenses" ? styles.textRed : styles.textGreen;
+    data < 0 ? styles.textRed : styles.textGreen;
 
   return (
     <Pressable style={styles.container}>
       <Text style={styles.text} className="text-slate-400 text-xl">
         {category}
       </Text>
-      <Text style={secondTextStyle}> ₱ {data.toFixed(2)}</Text>
+      <Text style={secondTextStyle}> ₱ {Number(data.toFixed(2)).toLocaleString('en-US', {minimumFractionDigits:2, maximumFractionDigits:2})}</Text>
     </Pressable>
   );
 }
@@ -34,10 +34,10 @@ const styles = StyleSheet.create({
   },
   textRed: {
     color: "red",
-    fontSize: 24,
+    fontSize: 20,
   },
   textGreen: {
     color: "green",
-    fontSize: 24,
+    fontSize: 20,
   },
 });

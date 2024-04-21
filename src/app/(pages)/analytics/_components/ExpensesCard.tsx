@@ -3,7 +3,7 @@ import { choiceIconPair } from "@/constants/constants";
 import { Ionicons } from "@expo/vector-icons";
 import React from "react";
 
-const ExpensesCard = ({ data }) => {
+const ExpensesCard = ({ data, colorIndex }) => {
   const iconPair = choiceIconPair.find((pair) => pair.category === data.name);
   const iconName = iconPair ? iconPair.icon : "add-circle";
 
@@ -30,7 +30,7 @@ const ExpensesCard = ({ data }) => {
         <View className="flex flex-col w-2/3 gap-3">
           <View className="h-1/2 flex flex-row gap-1 items-center justify-between">
             <Text style={styles.label}>{data.name}</Text>
-            <Text style={styles.label}> ₱ {data.amount.toFixed(2)}</Text>
+            <Text style={styles.label}> ₱ {Number(data.amount.toFixed(2)).toLocaleString('en-US', {minimumFractionDigits:2, maximumFractionDigits:2})}</Text>
           </View>
           <View style={styles.progressBarContainer}>
             {/* Progress bar */}

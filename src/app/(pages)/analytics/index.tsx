@@ -98,10 +98,9 @@ export default function Analytics() {
       </View>
 
       <DataViz data={sumPerCategory} />
-      <Text style={styles.breakdownTitle}>BREAKDOWN</Text>
       <ScrollView contentContainerStyle={styles.scrollViewContent}>
         {sumPerCategory.map((choice, index) => (
-          <ExpensesCard key={index} data={choice} />
+          <ExpensesCard key={index} data={choice} colorIndex={index}/>
         ))}
       </ScrollView>
     </View>

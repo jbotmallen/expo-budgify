@@ -1,5 +1,6 @@
 import { View, Text } from "react-native";
 import React from "react";
+import { currentMonth } from "@/constants/functions";
 
 export default function Card({ title, data }) {
   const value = data?.reduce(
@@ -14,9 +15,19 @@ export default function Card({ title, data }) {
         <Text className="text-slate-300 font-bold"> APRIL</Text>
       </Text>
       <View className="w-full h-28 bg-violet-400 rounded-xl py-8 px-5 flex flex-row items-center justify-start">
-        <Text className="text-5xl tracking-widest font-normal">
-          ₱ {value.toFixed(2)}
-        </Text>
+        {value > 0 ? (
+          <Text className="text-4xl tracking-widest font-normal">
+            ₱{" "}
+            {Number(value.toFixed(2)).toLocaleString("en-US", {
+              minimumFractionDigits: 2,
+              maximumFractionDigits: 2,
+            })}
+          </Text>
+        ) : (
+          <Text className="text-4xl tracking-widest font-normal">
+            No {title.toLowerCase()} for {currentMonth}
+          </Text>
+        )}
       </View>
     </View>
   );

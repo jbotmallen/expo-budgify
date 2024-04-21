@@ -3,7 +3,7 @@ import React, { useEffect, useMemo, useState } from 'react'
 import { recordTags } from '@/constants/constants';
 import { useAuth } from '@/utils/context/AuthContext';
 import { useBudget } from '@/utils/context/BudgetContext';
-import { convertDateToString } from '../../../constants/functions';
+import { convertDateToString, numberWithCommas } from '../../../constants/functions';
 import IonIcons from 'react-native-vector-icons/Ionicons';
 import { router } from 'expo-router';
 
@@ -134,7 +134,7 @@ export default function Records() {
                       </>
                     )}
                   </View>
-                  <Text className='text-2xl text-green-500 font-semibold'>+ ₱{Number(record.value).toFixed(2)}</Text>
+                  <Text className='text-2xl text-green-500 font-semibold'>+ ₱{numberWithCommas(Number(record.value).toFixed(0))}</Text>
                 </View>
               </View>
             ))}

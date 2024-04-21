@@ -1,13 +1,13 @@
 import React from "react";
 import { View } from "react-native";
 import { PieChart } from "react-native-chart-kit";
-import { hexColors } from "@/constants/constants";
+import { bgColors } from "@/constants/constants";
 
 const DataViz = ({ data }) => {
   // Pre-process data to include custom colors for each segment
   const chartData = data.map((item, index) => ({
     ...item,
-    color: hexColors[index],
+    color: bgColors[index],
   }));
 
   const chartConfig = {
