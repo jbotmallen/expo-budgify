@@ -13,28 +13,27 @@ export default function Analytics() {
   const [sumPerCategory, setSumPerCategory] = useState([]);
   const [uniqueCategories, setUniqueCategories] = useState([]);
   const [budget, setBudget] = useState([]);
-  const [currentMonth, setCurrentMonth] = useState("");
+  const [selectedMonth, setSelectedMonth] = useState(new Date().getMonth());
+  const [selectedYear, setSelectedYear] = useState(new Date().getFullYear());
   const [cashFlowCategory, setCashFlowCategory] = useState("Expense");
   const [activeCashFlowCategory, setActiveCashFlowCategory] =
-    useState("Expense"); // Track active category
+    useState("Expense");
 
   // will get initial data
   useEffect(() => {
     const fetchBudget = async () => {
       const data = await getBudget(user.uid);
       setBudget(data);
-      const current_month = new Date().toLocaleString("default", {
-        month: "long",
-      });
-      setCurrentMonth(current_month);
     };
     fetchBudget();
   }, [cashFlowCategory]);
+
   useEffect(() => {
     const expenses_list = budget.filter(
       (item) =>
         item.category === cashFlowCategory &&
-        formatDate(item.date).includes(currentMonth)
+        formatDate(item.date).includes(getMonthName(selectedMonth)) &&
+        new Date(item.date.seconds * 1000).getFullYear() === selectedYear
     );
 
     const unique_categories = [
@@ -48,7 +47,8 @@ export default function Analytics() {
       cashFlowCategory
     );
     setSumPerCategory(categoryTotals);
-  }, [budget, currentMonth, cashFlowCategory]);
+    console.log("Sum per category" + sumPerCategory);
+  }, [budget, selectedMonth, selectedYear, cashFlowCategory]);
 
   const formatDate = (timestamp) => {
     const date = new Date(timestamp.seconds * 1000);
@@ -62,11 +62,14 @@ export default function Analytics() {
   const expenses_list = budget.filter(
     (item) =>
       item.category === "Expense" &&
-      formatDate(item.date).includes(currentMonth)
+      formatDate(item.date).includes(getMonthName(selectedMonth)) &&
+      new Date(item.date.seconds * 1000).getFullYear() === selectedYear
   );
   const savings_list = budget.filter(
     (item) =>
-      item.category == "Income" && formatDate(item.date).includes(currentMonth)
+      item.category == "Income" &&
+      formatDate(item.date).includes(getMonthName(selectedMonth)) &&
+      new Date(item.date.seconds * 1000).getFullYear() === selectedYear
   );
 
   const savings_total = savings_list?.reduce(
@@ -79,7 +82,11 @@ export default function Analytics() {
   );
 
   const total_cash_flow = savings_total - expenses_total;
-
+  const handleMonthYearChange = (month, year) => {
+    setSelectedMonth(month);
+    setSelectedYear(year);
+    console.log("data for " + getMonthName(month) + year);
+  };
   const calculateCategoryTotals = (
     expenses_list,
     categories,
@@ -102,9 +109,10 @@ export default function Analytics() {
     });
     return categoryTotals;
   };
+
   return (
     <View style={styles.container}>
-      <MonthYearView />
+      <MonthYearView onMonthYearChange={handleMonthYearChange} />
       <View style={styles.cashFlowHeadersContainer}>
         <CashFlowHeader
           category="Expenses"
@@ -181,3 +189,20 @@ const styles = StyleSheet.create({
     textAlign: "center",
   },
 });
+const getMonthName = (monthIndex) => {
+  const monthNames = [
+    "January",
+    "February",
+    "March",
+    "April",
+    "May",
+    "June",
+    "July",
+    "August",
+    "September",
+    "October",
+    "November",
+    "December",
+  ];
+  return monthNames[monthIndex];
+};
