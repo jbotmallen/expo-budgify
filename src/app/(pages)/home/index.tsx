@@ -27,20 +27,33 @@ export default function Home() {
 
   const data = useMemo(() => {
     return {
-      expenses: budget.filter((item) => item.category === "Expense" && formatDate(item.date).includes(currentMonth)),
-      savings: budget.filter((item) => item.category === "Income" && formatDate(item.date).includes(currentMonth)),
-      transfers: budget.filter((item) => item.category === "Transfer" && formatDate(item.date).includes(currentMonth)),
-    }
+      expenses: budget.filter(
+        (item) =>
+          item.category === "Expense" &&
+          formatDate(item.date).includes(currentMonth)
+      ),
+      savings: budget.filter(
+        (item) =>
+          item.category === "Income" &&
+          formatDate(item.date).includes(currentMonth)
+      ),
+      transfers: budget.filter(
+        (item) =>
+          item.category === "Transfer" &&
+          formatDate(item.date).includes(currentMonth)
+      ),
+    };
   }, [budget]);
 
-  if (loading) return (
-    <View className="flex-1 justify-center items-center bg-gray-800">
-      <ActivityIndicator size={100} color="slategray" />
-    </View>
-  );
+  if (loading)
+    return (
+      <View className="flex-1 justify-center items-center bg-gray-800">
+        <ActivityIndicator size={100} color="slategray" />
+      </View>
+    );
 
   return (
-    <View className="p-10 h-4/5 bg-slate-800 relative flex-1 gap-10">
+    <View className="py-16 px-5 h-4/5 bg-slate-800 relative flex-1 gap-7">
       {loading ? (
         <View className="flex-1 justify-center items-center">
           <ActivityIndicator size="large" color="slategray" />
@@ -53,9 +66,12 @@ export default function Home() {
         <>
           <Text className="font-bold text-slate-400 text-4xl tracking-widest text-left flex">
             Hello,
-            <Text className="text-slate-300"> {user?.email.split("@")[0]}!</Text>
+            <Text className="text-slate-300">
+              {" "}
+              {user?.email.split("@")[0]}!
+            </Text>
           </Text>
-          <View className="max-h-3/4 w-full flex flex-col gap-8 border-4 border-slate-400 p-5 rounded-3xl">
+          <View className="max-h-3/4 w-full flex flex-col gap-5 border-slate-400  rounded-3xl">
             <Card title="EXPENSES" data={data.expenses} />
             <Card title="SAVINGS" data={data.savings} />
             <Card title="TRANSFERS" data={data.transfers} />
@@ -66,5 +82,5 @@ export default function Home() {
         </>
       )}
     </View>
-  )
+  );
 }

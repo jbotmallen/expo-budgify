@@ -47,7 +47,6 @@ export default function Analytics() {
       cashFlowCategory
     );
     setSumPerCategory(categoryTotals);
-    console.log("Sum per category" + sumPerCategory);
   }, [budget, selectedMonth, selectedYear, cashFlowCategory]);
 
   const formatDate = (timestamp) => {
@@ -85,7 +84,6 @@ export default function Analytics() {
   const handleMonthYearChange = (month, year) => {
     setSelectedMonth(month);
     setSelectedYear(year);
-    console.log("data for " + getMonthName(month) + year);
   };
   const calculateCategoryTotals = (
     expenses_list,
