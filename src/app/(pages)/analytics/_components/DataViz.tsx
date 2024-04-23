@@ -4,10 +4,11 @@ import { PieChart } from "react-native-chart-kit";
 import { bgColors } from "@/constants/constants";
 
 const DataViz = ({ data }) => {
-  // Pre-process data to include custom colors for each segment
   const chartData = data.map((item, index) => ({
     ...item,
     color: bgColors[index],
+    legendFontColor: "white",
+    legendFontSize: 16,
   }));
 
   const chartConfig = {
@@ -22,7 +23,7 @@ const DataViz = ({ data }) => {
   };
 
   return (
-    <View className="w-[95%] rounded-lg flex items-center justify-center bg-slate-300 p-3 mx-auto">
+    <View className="w-[95%] rounded-lg flex items-center justify-center p-3 mx-auto mb-5">
       <PieChart
         data={chartData}
         width={350}

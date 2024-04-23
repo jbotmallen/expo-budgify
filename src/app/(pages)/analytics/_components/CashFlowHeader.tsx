@@ -1,20 +1,28 @@
 import { StyleSheet, Text, Pressable } from "react-native";
 import React from "react";
 
-export default function CashFlowHeader({ category, data }) {
-  const secondTextStyle =
-    data < 0 ? styles.textRed : styles.textGreen;
+export default function CashFlowHeader({ category, data, onPress, isActive }) {
+  const secondTextStyle = data < 0 ? styles.textRed : styles.textGreen;
+  const containerStyle = isActive
+    ? [styles.container, styles.activeContainer]
+    : styles.container;
 
   return (
-    <Pressable style={styles.container}>
-      <Text style={styles.text} className="text-slate-400 text-xl">
+    <Pressable style={containerStyle} onPress={onPress}>
+      <Text style={styles.text} className="text-slate-400 ">
         {category}
       </Text>
-      <Text style={secondTextStyle}> ₱ {Number(data.toFixed(2)).toLocaleString('en-US', {minimumFractionDigits:2, maximumFractionDigits:2})}</Text>
+      <Text style={secondTextStyle} className="font-bold">
+        {" "}
+        ₱{" "}
+        {Number(data.toFixed(2)).toLocaleString("en-US", {
+          minimumFractionDigits: 2,
+          maximumFractionDigits: 2,
+        })}
+      </Text>
     </Pressable>
   );
 }
-
 const styles = StyleSheet.create({
   container: {
     display: "flex",
@@ -29,8 +37,10 @@ const styles = StyleSheet.create({
     borderRadius: 10,
   },
   text: {
-    fontWeight: "900",
-    fontSize: 24,
+    display: "flex",
+    fontWeight: "500",
+    fontSize: 22,
+    justifyContent: "center",
   },
   textRed: {
     color: "red",
@@ -39,5 +49,8 @@ const styles = StyleSheet.create({
   textGreen: {
     color: "green",
     fontSize: 20,
+  },
+  activeContainer: {
+    backgroundColor: "#2d274f",
   },
 });

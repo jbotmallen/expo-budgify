@@ -14,7 +14,11 @@ export default function Analytics() {
   const [uniqueCategories, setUniqueCategories] = useState([]);
   const [budget, setBudget] = useState([]);
   const [currentMonth, setCurrentMonth] = useState("");
+  const [cashFlowCategory, setCashFlowCategory] = useState("Expense");
+  const [activeCashFlowCategory, setActiveCashFlowCategory] =
+    useState("Expense"); // Track active category
 
+  // will get initial data
   useEffect(() => {
     const fetchBudget = async () => {
       const data = await getBudget(user.uid);
@@ -25,14 +29,14 @@ export default function Analytics() {
       setCurrentMonth(current_month);
     };
     fetchBudget();
-  }, []);
-
+  }, [cashFlowCategory]);
   useEffect(() => {
     const expenses_list = budget.filter(
       (item) =>
-        item.category === "Expense" &&
+        item.category === cashFlowCategory &&
         formatDate(item.date).includes(currentMonth)
     );
+
     const unique_categories = [
       ...new Set(expenses_list.map((item) => item.expenses)),
     ];
@@ -40,10 +44,11 @@ export default function Analytics() {
 
     const categoryTotals = calculateCategoryTotals(
       expenses_list,
-      uniqueCategories
+      uniqueCategories,
+      cashFlowCategory
     );
     setSumPerCategory(categoryTotals);
-  }, [budget, currentMonth]);
+  }, [budget, currentMonth, cashFlowCategory]);
 
   const formatDate = (timestamp) => {
     const date = new Date(timestamp.seconds * 1000);
@@ -75,34 +80,72 @@ export default function Analytics() {
 
   const total_cash_flow = savings_total - expenses_total;
 
-  const calculateCategoryTotals = (expenses_list, categories) => {
+  const calculateCategoryTotals = (
+    expenses_list,
+    categories,
+    cash_flow_category
+  ) => {
+    const total =
+      cash_flow_category === "Income" ? savings_total : expenses_total;
+
     const categoryTotals = categories.map((category) => {
-      const total = expenses_list
+      const total_per_category = expenses_list
         .filter((item) => item.expenses === category)
         .reduce((acc, curr) => acc + parseFloat(curr.value), 0);
-      const percentage =
-        expenses_total !== 0 ? (total / expenses_total) * 100 : 0;
+      const percentage = total !== 0 ? (total_per_category / total) * 100 : 0;
 
-      return { name: category, amount: total, percentage: percentage };
+      return {
+        name: category,
+        amount: total_per_category,
+        percentage: percentage,
+      };
     });
     return categoryTotals;
   };
-
   return (
     <View style={styles.container}>
       <MonthYearView />
       <View style={styles.cashFlowHeadersContainer}>
-        <CashFlowHeader category="Expenses" data={expenses_total} />
-        <CashFlowHeader category="Income" data={savings_total} />
-        <CashFlowHeader category="Cash Flow" data={total_cash_flow} />
+        <CashFlowHeader
+          category="Expenses"
+          data={expenses_total}
+          onPress={() => {
+            setCashFlowCategory("Expense");
+            setActiveCashFlowCategory("Expense");
+          }}
+          isActive={activeCashFlowCategory === "Expense"}
+        />
+        <CashFlowHeader
+          category="Income"
+          data={savings_total}
+          onPress={() => {
+            setCashFlowCategory("Income");
+            setActiveCashFlowCategory("Income");
+          }}
+          isActive={activeCashFlowCategory === "Income"}
+        />
+        <CashFlowHeader
+          category="Cash Flow"
+          data={total_cash_flow}
+          onPress={() => {
+            setCashFlowCategory("Expense");
+            setActiveCashFlowCategory("Cash Flow");
+          }}
+          isActive={activeCashFlowCategory === "Cash Flow"}
+        />
       </View>
-
-      <DataViz data={sumPerCategory} />
-      <ScrollView contentContainerStyle={styles.scrollViewContent}>
-        {sumPerCategory.map((choice, index) => (
-          <ExpensesCard key={index} data={choice} colorIndex={index}/>
-        ))}
-      </ScrollView>
+      {sumPerCategory.length === 0 ? (
+        <Text style={styles.noRecordsText}>No records yet!</Text>
+      ) : (
+        <>
+          <DataViz data={sumPerCategory} />
+          <ScrollView contentContainerStyle={styles.scrollViewContent}>
+            {sumPerCategory.map((choice, index) => (
+              <ExpensesCard key={index} data={choice} colorIndex={index} />
+            ))}
+          </ScrollView>
+        </>
+      )}
     </View>
   );
 }
@@ -129,5 +172,12 @@ const styles = StyleSheet.create({
   scrollViewContent: {
     flexGrow: 1,
     marginHorizontal: 15,
+  },
+  noRecordsText: {
+    color: "#FFFFFF",
+    marginTop: 10,
+    fontSize: 24,
+    fontWeight: "bold",
+    textAlign: "center",
   },
 });

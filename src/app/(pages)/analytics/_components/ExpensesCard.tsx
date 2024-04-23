@@ -7,7 +7,6 @@ const ExpensesCard = ({ data, colorIndex }) => {
   const iconPair = choiceIconPair.find((pair) => pair.category === data.name);
   const iconName = iconPair ? iconPair.icon : "add-circle";
 
-  // Calculate the remaining percentage
   const remainingPercentage = 100 - data.percentage;
 
   return (
@@ -24,35 +23,40 @@ const ExpensesCard = ({ data, colorIndex }) => {
         }
         size={40}
         color="#f3f3f3"
-        className="text-slate-400 w-fit mr-5 bg-[#2D3748] rounded-full p-2"
+        className="text-slate-400 w-fit mr-2 p-2 "
       />
-      <View className="flex-row justify-between items-center w-5/6">
-        <View className="flex flex-col w-2/3 gap-3">
+      <View className="flex-row justify-between items-center w-5/6 ">
+        <View className="flex flex-col w-2/3 gap-1 ">
           <View className="h-1/2 flex flex-row gap-1 items-center justify-between">
             <Text style={styles.label}>{data.name}</Text>
-            <Text style={styles.label}> ₱ {Number(data.amount.toFixed(2)).toLocaleString('en-US', {minimumFractionDigits:2, maximumFractionDigits:2})}</Text>
+            <Text style={styles.label}>
+              {" "}
+              ₱{" "}
+              {Number(data.amount.toFixed(2)).toLocaleString("en-US", {
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 2,
+              })}
+            </Text>
           </View>
           <View style={styles.progressBarContainer}>
-            {/* Progress bar */}
             <View
               style={{
                 ...styles.progressBar,
-                width: `${data.percentage}%`, // Set the width dynamically based on data.percentage
+                width: `${data.percentage}%`,
               }}
             />
-            {/* Remaining portion */}
             <View
               style={{
                 ...styles.progressBar,
-                width: `${remainingPercentage}%`, // Set the width dynamically based on the remaining percentage
-                backgroundColor: "gray", // Set the background color to gray
+                width: `${remainingPercentage}%`,
+                backgroundColor: "gray",
               }}
             />
           </View>
         </View>
 
         <View>
-          <Text className="text-blue-200 text-2xl">
+          <Text className="text-blue-200 text-xl">
             {data.percentage.toFixed(2)}%
           </Text>
         </View>
@@ -67,8 +71,10 @@ const styles = StyleSheet.create({
   card: {
     flexDirection: "row",
     alignItems: "center",
-    width: "100%",
-    padding: 20,
+    // width: "100%",
+    justifyContent: "center", // Align items vertically at the center
+
+    padding: 10,
     height: windowHeight * 0.12,
     borderWidth: 3,
     borderRadius: 15,
@@ -79,6 +85,7 @@ const styles = StyleSheet.create({
     flex: 1,
     height: "100%",
     display: "flex",
+
     flexDirection: "row",
   },
   progressBar: {
