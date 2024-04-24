@@ -1,4 +1,4 @@
-import { createContext, useContext } from "react";
+import { createContext, useContext, useState } from "react";
 import {
   addDoc,
   collection,
@@ -12,8 +12,11 @@ import { db } from "../firebase/firebase-config";
 export const BudgetContext = createContext();
 
 export const BudgetProvider = ({ children }) => {
+  const [loading, setLoading] = useState(false);
+
   const addBudget = async (formData, id) => {
     try {
+      setLoading(true);
       const userDocRef = doc(db, "budgets", id);
 
       const budgetSubcollectionRef = collection(userDocRef, "content");
@@ -22,6 +25,7 @@ export const BudgetProvider = ({ children }) => {
         createdAt: new Date(),
         updatedAt: new Date(),
       });
+      setLoading(false);
 
       return { success: true, data: newBudgetRef.id };
     } catch (error) {
@@ -32,6 +36,7 @@ export const BudgetProvider = ({ children }) => {
 
   const getBudget = async (userId) => {
     try {
+      setLoading(true);
       // Reference the user's document within the 'budget' collection
       const userDocRef = doc(db, "budgets", userId);
 
@@ -46,6 +51,7 @@ export const BudgetProvider = ({ children }) => {
         id: doc.id,
         ...doc.data(),
       }));
+      setLoading(false);
 
       return data;
     } catch (error) {
@@ -56,6 +62,7 @@ export const BudgetProvider = ({ children }) => {
 
   const getBudgetByCategory = async (userId, category) => {
     try {
+      setLoading(true);
       const userDocRef = doc(db, "budgets", userId);
       const contentCollectionRef = collection(userDocRef, "content");
       const querySnapshot = await getDocs(contentCollectionRef);
@@ -66,6 +73,7 @@ export const BudgetProvider = ({ children }) => {
           data.push({ id: doc.id, ...doc.data() });
         }
       });
+      setLoading(false);
 
       return data;
     } catch (error) {
@@ -76,10 +84,13 @@ export const BudgetProvider = ({ children }) => {
 
   const deleteBudget = async (userId, budgetId) => {
     try {
+      setLoading(true);
       const userDocRef = doc(db, "budgets", userId);
       const contentCollectionRef = collection(userDocRef, "content");
       const budgetDocRef = doc(contentCollectionRef, budgetId);
       await deleteDoc(budgetDocRef);
+      setLoading(false);
+
       return { success: true };
     } catch (error) {
       console.error("Error deleting document: ", error);
@@ -89,8 +100,11 @@ export const BudgetProvider = ({ children }) => {
 
   const editBudget = async (userId, budgetId, description) => {
     try {
+      setLoading(true);
       const budgetDocRef = doc(db, "budgets", userId, "content", budgetId);
       await updateDoc(budgetDocRef, { description: description });
+      setLoading(false);
+
       return { success: true };
     } catch (error) {
       console.error("Error updating document: ", error);
@@ -106,6 +120,7 @@ export const BudgetProvider = ({ children }) => {
         deleteBudget,
         getBudgetByCategory,
         editBudget,
+        loading
       }}
     >
       {children}

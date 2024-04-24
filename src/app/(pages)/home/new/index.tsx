@@ -178,7 +178,7 @@ export default function Add() {
             <View className="w-full h-1/2 flex flex-col gap-3 mt-2">
               <View className="w-full h-1/4 border-slate-400 border-2 flex flex-row items-center justify-between rounded-2xl">
                 <Text className="text-right w-3/4 text-6xl font-semibold text-slate-300 placeholder:text-slate-400 flex">
-                  {formValues.value ? formValues.value : "0"}
+                  {formValues.value ? Number(formValues.value).toLocaleString() : "0"}
                 </Text>
                 <View className="w-1/4 h-full flex items-center justify-center">
                   <TouchableOpacity

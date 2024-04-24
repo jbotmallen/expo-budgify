@@ -1,5 +1,5 @@
-import { ScrollView, View, Text, StyleSheet } from "react-native";
-import React, { useState, useEffect } from "react";
+import { ScrollView, View, Text, StyleSheet, ActivityIndicator } from "react-native";
+import React, { useState, useEffect, useMemo } from "react";
 import MonthYearView from "./_components/MonthYearViewHeader";
 import CashFlowHeader from "./_components/CashFlowHeader";
 import ExpensesCard from "./_components/ExpensesCard";
@@ -9,15 +9,14 @@ import { useBudget } from "@/utils/context/BudgetContext";
 
 export default function Analytics() {
   const { user } = useAuth();
-  const { getBudget } = useBudget();
-  const [sumPerCategory, setSumPerCategory] = useState([]);
+  const { getBudget, loading } = useBudget();
+
   const [uniqueCategories, setUniqueCategories] = useState([]);
   const [budget, setBudget] = useState([]);
   const [selectedMonth, setSelectedMonth] = useState(new Date().getMonth());
   const [selectedYear, setSelectedYear] = useState(new Date().getFullYear());
   const [cashFlowCategory, setCashFlowCategory] = useState("Expense");
-  const [activeCashFlowCategory, setActiveCashFlowCategory] =
-    useState("Expense");
+  const [activeCashFlowCategory, setActiveCashFlowCategory] = useState("Expense");
 
   // will get initial data
   useEffect(() => {
@@ -25,6 +24,7 @@ export default function Analytics() {
       const data = await getBudget(user.uid);
       setBudget(data);
     };
+
     fetchBudget();
   }, [cashFlowCategory]);
 
@@ -40,13 +40,6 @@ export default function Analytics() {
       ...new Set(expenses_list.map((item) => item.expenses)),
     ];
     setUniqueCategories(unique_categories);
-
-    const categoryTotals = calculateCategoryTotals(
-      expenses_list,
-      uniqueCategories,
-      cashFlowCategory
-    );
-    setSumPerCategory(categoryTotals);
   }, [budget, selectedMonth, selectedYear, cashFlowCategory]);
 
   const formatDate = (timestamp) => {
@@ -108,6 +101,23 @@ export default function Analytics() {
     return categoryTotals;
   };
 
+  const sumCategory = useMemo(() => {
+    return calculateCategoryTotals(
+      budget,
+      uniqueCategories,
+      cashFlowCategory
+    );
+  }, [budget, uniqueCategories, cashFlowCategory]);
+
+  if (loading) {
+    return (
+      <View style={styles.container} className="relative justify-center items-center">
+        <Text className="text-3xl text-slate-300">Fetching your stuff...</Text>
+        <ActivityIndicator size={150} color="slategray" />
+      </View>
+    )
+  }
+
   return (
     <View style={styles.container}>
       <MonthYearView onMonthYearChange={handleMonthYearChange} />
@@ -140,13 +150,13 @@ export default function Analytics() {
           isActive={activeCashFlowCategory === "Cash Flow"}
         />
       </View>
-      {sumPerCategory.length === 0 ? (
+      {loading ? <ActivityIndicator /> : sumCategory.length === 0 && !loading ? (
         <Text style={styles.noRecordsText}>No records yet!</Text>
       ) : (
         <>
-          <DataViz data={sumPerCategory} />
+          <DataViz data={sumCategory} />
           <ScrollView contentContainerStyle={styles.scrollViewContent}>
-            {sumPerCategory.map((choice, index) => (
+            {sumCategory.map((choice, index) => (
               <ExpensesCard key={index} data={choice} colorIndex={index} />
             ))}
           </ScrollView>

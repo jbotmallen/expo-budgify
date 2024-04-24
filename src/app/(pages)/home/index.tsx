@@ -11,18 +11,16 @@ export default function Home() {
   const { user } = useAuth();
   const { getBudget } = useBudget();
   const [budget, setBudget] = useState([]);
-  const [loading, setLoading] = useState(false);
+  const { loading } = useBudget();
 
   useEffect(() => {
     const fetchBudget = async () => {
-      setLoading(true);
       const data = await getBudget(user.uid);
       setBudget(data);
-      setLoading(false);
     };
     fetchBudget();
 
-    return () => {};
+    return () => { };
   }, []);
 
   const data = useMemo(() => {
@@ -52,6 +50,7 @@ export default function Home() {
       </View>
     );
 
+
   return (
     <View className="py-16 px-5 h-4/5 bg-slate-800 relative flex-1 gap-7">
       {loading ? (
@@ -71,7 +70,7 @@ export default function Home() {
               {user?.email.split("@")[0]}!
             </Text>
           </Text>
-          <View className="max-h-3/4 w-full flex flex-col gap-5 border-slate-400  rounded-3xl">
+          <View className="max-h-3/4 w-full flex flex-col gap-5 border-slate-400 border-4 p-5 rounded-xl">
             <Card title="EXPENSES" data={data.expenses} />
             <Card title="SAVINGS" data={data.savings} />
             <Card title="TRANSFERS" data={data.transfers} />

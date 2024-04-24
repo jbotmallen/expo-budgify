@@ -20,14 +20,13 @@ import { router } from "expo-router";
 
 export default function Records() {
   const [selected, setSelected] = useState("Expense");
-  const [loading, setLoading] = useState(false);
   const [records, setRecords] = useState([]);
   const [editing, setEditing] = useState(false);
   const [editId, setEditId] = useState("");
   const [description, setDescription] = useState("");
 
   const { user } = useAuth();
-  const { getBudget, deleteBudget, editBudget } = useBudget();
+  const { getBudget, deleteBudget, editBudget, loading } = useBudget();
 
   useEffect(() => {
     const fetchRecords = async () => {
@@ -35,17 +34,13 @@ export default function Records() {
       setRecords(data);
     };
 
-    setLoading(true);
     fetchRecords();
-    setLoading(false);
   }, []);
 
   const filteredRecords = useMemo(() => {
-    setLoading(true);
     const filtered = records.filter((record) =>
       selected.toLowerCase().includes(record.category.toLowerCase())
     );
-    setLoading(false);
     return filtered;
   }, [records, selected]);
 
@@ -92,8 +87,9 @@ export default function Records() {
   };
 
   const handleEditSubmit = () => {
-    setLoading(true);
     try {
+      if(!description) return Alert.alert("Something went wrong!", "Description is required. Please input a description.");
+
       const res = editBudget(user.uid, editId, description);
       if (res) {
         router.replace("/records");
@@ -118,7 +114,7 @@ export default function Records() {
         </Text>
       </View>
       {loading ? (
-        <ActivityIndicator size="large" color="white" />
+        <ActivityIndicator size={100} color="white" />
       ) : (
         <>
           <View className="w-full h-[5%] flex flex-row justify-end gap-2 px-1">
@@ -131,7 +127,7 @@ export default function Records() {
               />
             ))}
           </View>
-          <ScrollView className="w-full max-h-[65%] pt-5">
+          <ScrollView className="w-full max-h-[65%] pt-0">
             {filteredRecords.length <= 0 ? (
               <Text className="mx-auto text-gray-300 text-5xl">
                 No data found.
@@ -184,7 +180,7 @@ export default function Records() {
                             <IonIcons name="pencil" size={40} color="skyblue" />
                           </Pressable>
                           <Pressable onPress={() => handleDelete(record.id)}>
-                            <IonIcons name="trash" size={40} color="red" />
+                            <IonIcons name="trash" size={40} color="slategray" />
                           </Pressable>
                         </>
                       )}
@@ -193,7 +189,7 @@ export default function Records() {
                       className={`text-2xl font-semibold ${
                         record.category === "Income"
                           ? "text-green-500"
-                          : "text-red-200"
+                          : "text-red-400"
                       }`}
                     >
                       {record.category === "Income" ? "+ " : "- "}₱
