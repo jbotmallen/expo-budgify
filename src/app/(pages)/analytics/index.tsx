@@ -1,4 +1,10 @@
-import { ScrollView, View, Text, StyleSheet, ActivityIndicator } from "react-native";
+import {
+  ScrollView,
+  View,
+  Text,
+  StyleSheet,
+  ActivityIndicator,
+} from "react-native";
 import React, { useState, useEffect, useMemo } from "react";
 import MonthYearView from "./_components/MonthYearViewHeader";
 import CashFlowHeader from "./_components/CashFlowHeader";
@@ -16,18 +22,16 @@ export default function Analytics() {
   const [selectedMonth, setSelectedMonth] = useState(new Date().getMonth());
   const [selectedYear, setSelectedYear] = useState(new Date().getFullYear());
   const [cashFlowCategory, setCashFlowCategory] = useState("Expense");
-  const [activeCashFlowCategory, setActiveCashFlowCategory] = useState("Expense");
-
+  const [activeCashFlowCategory, setActiveCashFlowCategory] =
+    useState("Expense");
   // will get initial data
   useEffect(() => {
     const fetchBudget = async () => {
       const data = await getBudget(user.uid);
       setBudget(data);
     };
-
     fetchBudget();
   }, [cashFlowCategory]);
-
   useEffect(() => {
     const expenses_list = budget.filter(
       (item) =>
@@ -100,24 +104,21 @@ export default function Analytics() {
     });
     return categoryTotals;
   };
-
   const sumCategory = useMemo(() => {
-    return calculateCategoryTotals(
-      budget,
-      uniqueCategories,
-      cashFlowCategory
-    );
+    return calculateCategoryTotals(budget, uniqueCategories, cashFlowCategory);
   }, [budget, uniqueCategories, cashFlowCategory]);
 
   if (loading) {
     return (
-      <View style={styles.container} className="relative justify-center items-center">
+      <View
+        style={styles.container}
+        className="relative justify-center items-center"
+      >
         <Text className="text-3xl text-slate-300">Fetching your stuff...</Text>
         <ActivityIndicator size={150} color="slategray" />
       </View>
-    )
+    );
   }
-
   return (
     <View style={styles.container}>
       <MonthYearView onMonthYearChange={handleMonthYearChange} />
@@ -150,7 +151,9 @@ export default function Analytics() {
           isActive={activeCashFlowCategory === "Cash Flow"}
         />
       </View>
-      {loading ? <ActivityIndicator /> : sumCategory.length === 0 && !loading ? (
+      {loading ? (
+        <ActivityIndicator />
+      ) : sumCategory.length === 0 && !loading ? (
         <Text style={styles.noRecordsText}>No records yet!</Text>
       ) : (
         <>
