@@ -16,7 +16,7 @@ import { useBudget } from "@/utils/context/BudgetContext";
 export default function Analytics() {
   const { user } = useAuth();
   const { getBudget, loading } = useBudget();
-
+  const [filteredData, setFilteredData] = useState([]);
   const [uniqueCategories, setUniqueCategories] = useState([]);
   const [budget, setBudget] = useState([]);
   const [selectedMonth, setSelectedMonth] = useState(new Date().getMonth());
@@ -24,14 +24,14 @@ export default function Analytics() {
   const [cashFlowCategory, setCashFlowCategory] = useState("Expense");
   const [activeCashFlowCategory, setActiveCashFlowCategory] =
     useState("Expense");
-  // will get initial data
   useEffect(() => {
     const fetchBudget = async () => {
       const data = await getBudget(user.uid);
       setBudget(data);
     };
     fetchBudget();
-  }, [cashFlowCategory]);
+  }, []);
+
   useEffect(() => {
     const expenses_list = budget.filter(
       (item) =>
@@ -39,6 +39,8 @@ export default function Analytics() {
         formatDate(item.date).includes(getMonthName(selectedMonth)) &&
         new Date(item.date.seconds * 1000).getFullYear() === selectedYear
     );
+
+    setFilteredData(expenses_list);
 
     const unique_categories = [
       ...new Set(expenses_list.map((item) => item.expenses)),
@@ -102,10 +104,16 @@ export default function Analytics() {
         percentage: percentage,
       };
     });
+
     return categoryTotals;
   };
+
   const sumCategory = useMemo(() => {
-    return calculateCategoryTotals(budget, uniqueCategories, cashFlowCategory);
+    return calculateCategoryTotals(
+      filteredData,
+      uniqueCategories,
+      cashFlowCategory
+    );
   }, [budget, uniqueCategories, cashFlowCategory]);
 
   if (loading) {
