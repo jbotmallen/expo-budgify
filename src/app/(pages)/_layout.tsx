@@ -8,13 +8,14 @@ import { BudgetProvider } from "@/utils/context/BudgetContext";
 export default function Layout() {
   const { user } = useAuth();
 
-  if (user === false) return <ActivityIndicator size={96} color='white' />
-
+  if (user === false) return <ActivityIndicator size={96} color="white" />;
   return (
     <BudgetProvider>
       <View className="w-screen h-screen bg-slate-800">
         <Header />
-        <Stack screenOptions={{ headerShown: false, animation: "fade_from_bottom" }} />
+        <Stack
+          screenOptions={{ headerShown: false, animation: "fade_from_bottom" }}
+        />
         <Navbar />
       </View>
     </BudgetProvider>
