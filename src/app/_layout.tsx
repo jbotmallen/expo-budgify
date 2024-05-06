@@ -9,7 +9,7 @@ const MainLayout = () => {
   const segments = useSegments();
 
   useEffect(() => {
-    if(typeof isAuthenticated == 'undefined') return
+    if(!user || typeof isAuthenticated == 'undefined') return
 
     const inApp = segments[0] == '(pages)'
     
@@ -18,9 +18,9 @@ const MainLayout = () => {
     } else if (isAuthenticated == false) {
       router.replace('/auth/');
     }
+    
   }, [isAuthenticated]);
 
-  if(user === false) return <ActivityIndicator size={96} color='white' />
 
   return <Slot />
 }

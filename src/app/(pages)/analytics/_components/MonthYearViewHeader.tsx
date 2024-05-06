@@ -20,6 +20,7 @@ export default function MonthYearView({ onMonthYearChange }) {
     setSelectedYear(nextYear);
     onMonthYearChange(nextMonth, nextYear);
   };
+
   return (
     <View className="w-full py-5 flex-row justify-between px-5 bg-slate-900">
       <Entypo

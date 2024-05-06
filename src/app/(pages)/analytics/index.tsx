@@ -22,8 +22,7 @@ export default function Analytics() {
   const [selectedMonth, setSelectedMonth] = useState(new Date().getMonth());
   const [selectedYear, setSelectedYear] = useState(new Date().getFullYear());
   const [cashFlowCategory, setCashFlowCategory] = useState("Expense");
-  const [activeCashFlowCategory, setActiveCashFlowCategory] =
-    useState("Expense");
+  const [activeCashFlowCategory, setActiveCashFlowCategory] = useState("Expense");
   // will get initial data
   useEffect(() => {
     const fetchBudget = async () => {
@@ -32,6 +31,7 @@ export default function Analytics() {
     };
     fetchBudget();
   }, [cashFlowCategory]);
+
   useEffect(() => {
     const expenses_list = budget.filter(
       (item) =>
@@ -61,6 +61,7 @@ export default function Analytics() {
       formatDate(item.date).includes(getMonthName(selectedMonth)) &&
       new Date(item.date.seconds * 1000).getFullYear() === selectedYear
   );
+
   const savings_list = budget.filter(
     (item) =>
       item.category == "Income" &&
@@ -83,42 +84,32 @@ export default function Analytics() {
     setSelectedYear(year);
   };
   const calculateCategoryTotals = (
-    expenses_list,
+    budgetList,
     categories,
     cash_flow_category
   ) => {
     const total =
-      cash_flow_category === "Income" ? savings_total : expenses_total;
-
+    cash_flow_category === "Income" ? savings_total : expenses_total;
+    
     const categoryTotals = categories.map((category) => {
-      const total_per_category = expenses_list
+      const total_per_category = budgetList
         .filter((item) => item.expenses === category)
         .reduce((acc, curr) => acc + parseFloat(curr.value), 0);
-      const percentage = total !== 0 ? (total_per_category / total) * 100 : 0;
+        const percentage = total !== 0 ? (total_per_category / total) * 100 : 0;
+        
+        return {
+          name: category,
+          amount: total_per_category,
+          percentage: percentage,
+        };
+      });
 
-      return {
-        name: category,
-        amount: total_per_category,
-        percentage: percentage,
-      };
-    });
     return categoryTotals;
   };
   const sumCategory = useMemo(() => {
     return calculateCategoryTotals(budget, uniqueCategories, cashFlowCategory);
   }, [budget, uniqueCategories, cashFlowCategory]);
 
-  if (loading) {
-    return (
-      <View
-        style={styles.container}
-        className="relative justify-center items-center"
-      >
-        <Text className="text-3xl text-slate-300">Fetching your stuff...</Text>
-        <ActivityIndicator size={150} color="slategray" />
-      </View>
-    );
-  }
   return (
     <View style={styles.container}>
       <MonthYearView onMonthYearChange={handleMonthYearChange} />
@@ -152,7 +143,7 @@ export default function Analytics() {
         />
       </View>
       {loading ? (
-        <ActivityIndicator />
+        <ActivityIndicator size={150} color={"slategray"} className="absolute top-1/2 left-1/2 -translate-x-1/2" />
       ) : sumCategory.length === 0 && !loading ? (
         <Text style={styles.noRecordsText}>No records yet!</Text>
       ) : (
@@ -173,6 +164,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#1A202C",
+    position: "relative",
   },
   cashFlowHeadersContainer: {
     flexDirection: "row",

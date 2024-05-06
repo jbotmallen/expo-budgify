@@ -12,7 +12,6 @@ import { recordTags } from "@/constants/constants";
 import { useAuth } from "@/utils/context/AuthContext";
 import { useBudget } from "@/utils/context/BudgetContext";
 import { Picker } from "@react-native-picker/picker";
-import { MaterialIcons } from "@expo/vector-icons";
 import {
   convertDateToString,
   numberWithCommas,
@@ -246,7 +245,7 @@ export default function Records() {
           </View>
           <ScrollView className="w-full max-h-[65%] pt-0">
             {sortedRecords.length <= 0 ? (
-              <Text className="mx-auto text-gray-300 text-5xl">
+              <Text className="mx-auto text-gray-300 text-5xl mt-10">
                 No data found.
               </Text>
             ) : (

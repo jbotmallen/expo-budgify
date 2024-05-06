@@ -11,7 +11,7 @@ import { errorChecks } from "../../constants/checks";
 export const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
-  const [user, setUser] = useState(false | null | undefined);
+  const [user, setUser] = useState(null | false | undefined);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
 
   useEffect(() => {
