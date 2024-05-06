@@ -7,6 +7,8 @@ import {
   ScrollView,
   TextInput,
 } from "react-native";
+import { Ionicons } from "@expo/vector-icons";
+
 import React, { useEffect, useMemo, useState } from "react";
 import { recordTags } from "@/constants/constants";
 import { useAuth } from "@/utils/context/AuthContext";
@@ -19,6 +21,7 @@ import {
 } from "../../../constants/functions";
 import IonIcons from "react-native-vector-icons/Ionicons";
 import { router } from "expo-router";
+import DatePicker from "@react-native-community/datetimepicker";
 
 export default function Records() {
   const [selected, setSelected] = useState("Expense");
@@ -28,6 +31,16 @@ export default function Records() {
   const [description, setDescription] = useState("");
   const [sortBy, setSortBy] = useState("");
   const [searchTerm, setSearchTerm] = useState("");
+  const [modalVisible, setModalVisible] = useState(false);
+  const [selectedExpense, setSelectedExpense] = useState("");
+  const [showDatePicker, setShowDatePicker] = useState(false);
+  const [formValues, setFormValues] = useState({
+    value: "",
+    expenses: "",
+    category: "",
+    description: "",
+    date: new Date(),
+  });
 
   const { user } = useAuth();
   const { getBudget, deleteBudget, editBudget, loading } = useBudget();
@@ -36,10 +49,16 @@ export default function Records() {
     const fetchRecords = async () => {
       const data = await getBudget(user.uid);
       setRecords(data);
+      console.log("records", data);
     };
 
     fetchRecords();
   }, []);
+  const handleDateChange = (event, selectedDate) => {
+    const currentDate = selectedDate || formValues.date;
+    setFormValues({ ...formValues, date: currentDate });
+    setShowDatePicker(false);
+  };
 
   const filteredRecords = useMemo(() => {
     const filtered = records.filter((record) =>
@@ -58,6 +77,9 @@ export default function Records() {
     setSearchTerm(text);
   };
 
+  const handleSelectCategory = () => {
+    console.log("category selected!");
+  };
   const sortedRecords = useMemo(() => {
     const filtered = filteredRecords;
 
@@ -120,13 +142,22 @@ export default function Records() {
   };
 
   const handleEditPress = (id: string) => {
+    const recordToEdit = records.find((record) => record.id === id);
+    console.log("record to edit", recordToEdit);
+
     if (editing && editId !== "") {
       setEditing(false);
       setEditId("");
     } else {
       setEditing(true);
       setEditId(id);
+      const date = new Date(recordToEdit.date.toDate());
+      setFormValues({
+        ...formValues,
+        date: date,
+      });
     }
+    console.log("form values", formValues);
   };
 
   const handleEditSubmit = () => {
@@ -257,24 +288,58 @@ export default function Records() {
                 >
                   <View className="w-[80%] h-full flex flex-col  justify-center item-start">
                     {editing && editId === record.id ? (
-                      <TextInput
-                        placeholder={record.description || "Description"}
-                        multiline
-                        numberOfLines={1}
-                        onChangeText={(text) => setDescription(text)}
-                        className="text-3xl text-slate-400 font-bold placeholder:text-slate-500 border-b-2 border-slate-400 w-5/6"
-                      />
+                      <>
+                        <TextInput
+                          placeholder={record.description || "Description"}
+                          multiline
+                          numberOfLines={1}
+                          value={formValues.description}
+                          onChangeText={(text) =>
+                            setFormValues({ ...formValues, description: text })
+                          } // Update 'description' field in 'formValues'
+                          className="text-3xl text-slate-400 font-bold placeholder:text-slate-500 border-b-2 border-slate-400 w-5/6"
+                        />
+                        <View className="flex flex-row gap-5 align-middle items-center justify-start py-2">
+                          <Text className="text-lg text-slate-400 font-semibold">
+                            {convertDateToString(record.date)}
+                          </Text>
+                          <Pressable onPress={() => setShowDatePicker(true)}>
+                            <Ionicons
+                              name="calendar"
+                              size={25}
+                              color="slategray"
+                            />
+                          </Pressable>
+                          {showDatePicker && (
+                            <DatePicker
+                              value={formValues.date}
+                              mode="date"
+                              display="default"
+                              onChange={handleDateChange}
+                            />
+                          )}
+                        </View>
+                        {/* EDIT THIS */}
+                        <Pressable
+                          onPress={handleSelectCategory}
+                          className="text-md text-slate-900 font-semibold bg-blue-200 max-w-[45%]  px-3 py-0.5 rounded-full"
+                        >
+                          <Text className="text-center">{record.expenses}</Text>
+                        </Pressable>
+                      </>
                     ) : (
-                      <Text className="text-3xl text-slate-400 font-bold">
-                        {record.description}
-                      </Text>
+                      <>
+                        <Text className="text-3xl text-slate-400 font-bold">
+                          {record.description}
+                        </Text>
+                        <Text className="text-lg text-slate-400 font-semibold mb-4">
+                          {convertDateToString(record.date)}
+                        </Text>
+                        <Text className="text-md text-slate-900 font-semibold bg-blue-200 max-w-[45%] text-center px-3 py-0.5 rounded-full">
+                          {record.expenses}
+                        </Text>
+                      </>
                     )}
-                    <Text className="text-lg text-slate-400 font-semibold mb-4">
-                      {convertDateToString(record.date)}
-                    </Text>
-                    <Text className="text-md text-slate-900 font-semibold bg-blue-200 max-w-[45%] text-center px-3 py-0.5 rounded-full">
-                      {record.expenses}
-                    </Text>
                   </View>
                   <View className="w-[20%] h-full flex flex-col items-end justify-around">
                     <View className="w-full flex flex-row items-center justify-end gap-3">
@@ -306,16 +371,29 @@ export default function Records() {
                         </>
                       )}
                     </View>
-                    <Text
-                      className={`text-2xl font-semibold ${
-                        record.category === "Income"
-                          ? "text-green-500"
-                          : "text-red-400"
-                      }`}
-                    >
-                      {record.category === "Income" ? "+ " : "- "}₱
-                      {numberWithCommas(Number(record.value).toFixed(0))}
-                    </Text>
+                    {editing && editId === record.id ? (
+                      <>
+                        <TextInput
+                          placeholder={"₱" + record.value}
+                          value={formValues.value}
+                          onChangeText={(text) =>
+                            setFormValues({ ...formValues, value: text })
+                          }
+                          className="text-2xl text-slate-400 font-bold placeholder:text-slate-500 border-b-2 border-slate-400 w-5/6"
+                        />
+                      </>
+                    ) : (
+                      <Text
+                        className={`text-2xl font-semibold ${
+                          record.category === "Income"
+                            ? "text-green-500"
+                            : "text-red-400"
+                        }`}
+                      >
+                        {record.category === "Income" ? "+ " : "- "}₱
+                        {numberWithCommas(Number(record.value).toFixed(0))}
+                      </Text>
+                    )}
                   </View>
                 </View>
               ))
