@@ -8,6 +8,7 @@ import {
   TextInput,
   Modal,
 } from "react-native";
+import DatePicker from "@react-native-community/datetimepicker";
 import React, { useEffect, useMemo, useState } from "react";
 import { expenseChoices, expenseIcons, recordTags } from "@/constants/constants";
 import { useAuth } from "@/utils/context/AuthContext";
@@ -20,13 +21,15 @@ import {
 } from "../../../constants/functions";
 import { AntDesign, Ionicons } from "@expo/vector-icons";
 import { router } from "expo-router";
-import DatePicker from "@react-native-community/datetimepicker";
 
 export default function Records() {
   const [selected, setSelected] = useState("Expense");
   const [records, setRecords] = useState([]);
+  
   const [editing, setEditing] = useState(false);
   const [openModal, setOpenModal] = useState(false);
+  const [showDatePicker, setShowDatePicker] = useState(false);
+
   const [editValues, setEditValues] = useState({
     id: '',
     description: '',
@@ -44,16 +47,10 @@ export default function Records() {
     const fetchRecords = async () => {
       const data = await getBudget(user.uid);
       setRecords(data);
-      console.log("records", data);
     };
 
     fetchRecords();
   }, []);
-  const handleDateChange = (event, selectedDate) => {
-    const currentDate = selectedDate || formValues.date;
-    setFormValues({ ...formValues, date: currentDate });
-    setShowDatePicker(false);
-  };
 
   const filteredRecords = useMemo(() => {
     const filtered = records.filter((record) =>
@@ -72,9 +69,6 @@ export default function Records() {
     setSearchTerm(text);
   };
 
-  const handleSelectCategory = () => {
-    console.log("category selected!");
-  };
   const sortedRecords = useMemo(() => {
     const filtered = filteredRecords;
 
@@ -136,16 +130,21 @@ export default function Records() {
     );
   };
 
-  const handleEditPress = (id: string) => {
-    if (editing && editId !== "") {
+  const handleEditPress = (values: any) => {
+    if (editing && editValues.id !== "") {
       setEditing(false);
       setEditValues({ id: "", description: "", date: new Date(), expenses: "", value: "" });
     } else {
       const convertedDate = convertTimeToDate(values.date);
       setEditing(true);
-      setEditId(id);
+      setEditValues({
+        id: values.id,
+        description: '',
+        date: convertedDate,
+        expenses: values.expenses,
+        value: '',
+      });
     }
-    console.log("form values", formValues);
   };
 
   const handleEditSubmit = () => {
@@ -283,26 +282,42 @@ export default function Records() {
                   className="w-full h-fit max-h-44 border-2 border-slate-400 rounded-3xl flex flex-row justify-between items-center py-4 px-6 mb-3"
                   key={record.id}
                 >
-                  <View className="w-[80%] h-full flex flex-col  justify-center item-start">
-                    {editing && editId === record.id ? (
-                      <TextInput
-                        placeholder={record.description || "Description"}
-                        multiline
-                        numberOfLines={1}
-                        onChangeText={(text) => setDescription(text)}
-                        className="text-3xl text-slate-400 font-bold placeholder:text-slate-500 border-b-2 border-slate-400 w-5/6"
-                      />
+                  <View className="w-3/4 h-full flex flex-col justify-center item-start">
+                    {editing && editValues.id === record.id ? (
+                      <View className="flex flex-col justify-between items-start h-full gap-2 pb-5">
+                        <TextInput
+                          placeholder={record.description || "Description"}
+                          multiline
+                          numberOfLines={1}
+                          value={editValues.description}
+                          onChangeText={(text) => setEditValues({ ...editValues, description: text })}
+                          className="text-3xl text-slate-400 font-bold placeholder:text-slate-500 border-b-2 border-slate-400 w-5/6"
+                        />
+                        <Pressable onPress={() => setShowDatePicker(true)}>
+                          <Text className="text-lg text-slate-400 font-semibold">
+                            {editValues.date.toDateString()}
+                          </Text>
+                        </Pressable>
+                        <Pressable
+                          onPress={() => setOpenModal(true)}
+                          className="py-0.5 px-3 w-1/2 bg-slate-300 justify-start items-center flex flex-row rounded-lg"
+                        >
+                          <Text className="text-base text-slate-900 font-semibold bg-blue-200 w-full text-center px-3 py-0.5 rounded-full">{editValues.expenses}</Text>
+                        </Pressable>
+                      </View>
                     ) : (
-                      <Text className="text-3xl text-slate-400 font-bold">
-                        {record.description}
-                      </Text>
+                      <>
+                        <Text className="text-3xl text-slate-400 font-bold">
+                          {record.description}
+                        </Text>
+                        <Text className="text-lg text-slate-400 font-semibold mb-4">
+                          {convertDateToString(record.date)}
+                        </Text>
+                        <Text className="text-base text-slate-900 font-semibold bg-blue-200 max-w-[45%] text-center px-3 py-0.5 rounded-full">
+                          {record.expenses}
+                        </Text>
+                      </>
                     )}
-                    <Text className="text-lg text-slate-400 font-semibold mb-4">
-                      {convertDateToString(record.date)}
-                    </Text>
-                    <Text className="text-md text-slate-900 font-semibold bg-blue-200 max-w-[45%] text-center px-3 py-0.5 rounded-full">
-                      {record.expenses}
-                    </Text>
                   </View>
                   <View className="w-1/4 h-full flex flex-col items-end justify-around">
                     <View className="w-full flex flex-row items-center justify-end gap-3">
@@ -334,16 +349,24 @@ export default function Records() {
                         </>
                       )}
                     </View>
-                    <Text
-                      className={`text-2xl font-semibold ${
-                        record.category === "Income"
+                    {editing && editValues.id === record.id ? (
+                      <TextInput
+                        keyboardType="numeric"
+                        placeholder={`₱ ${numberWithCommas(record.value)}` || "Value"}
+                        onChangeText={(text) => setEditValues({ ...editValues, value: text })}
+                        className="text-2xl text-slate-400 font-bold placeholder:text-slate-500 border-b-2 border-slate-400 w-full"
+                      />
+                    ) : (
+                      <Text
+                        className={`text-2xl font-semibold ${record.category === "Income"
                           ? "text-green-500"
                           : "text-red-400"
-                      }`}
-                    >
-                      {record.category === "Income" ? "+ " : "- "}₱
-                      {numberWithCommas(Number(record.value).toFixed(0))}
-                    </Text>
+                          }`}
+                      >
+                        {record.category === "Income" ? "+ " : "- "}₱
+                        {numberWithCommas(Number(record.value).toFixed(0))}
+                      </Text>
+                    )}
                   </View>
                 </View>
               ))
