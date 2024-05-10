@@ -150,7 +150,7 @@ export default function Analytics() {
         />
       </View>
       {loading ? (
-        <ActivityIndicator size={150} color={"slategray"} className="absolute top-1/2 left-1/2 -translate-x-1/2" />
+        <ActivityIndicator size={150} color="slategray" className="fixed top-1/4 left-0" />
       ) : sumCategory.length === 0 && !loading ? (
         <Text style={styles.noRecordsText}>No records yet!</Text>
       ) : (

@@ -12,11 +12,11 @@ export default function Card({ title, data }) {
     <View className="rounded-xl flex flex-col gap-2">
       <Text className="text-slate-400 text-xl">
         {title} FOR
-        <Text className="text-slate-300 font-bold"> APRIL</Text>
+        <Text className="text-slate-300 font-bold"> {currentMonth.toUpperCase()}</Text>
       </Text>
       <View className="w-full h-28 bg-[#7590d8] rounded-xl py-8 px-5 flex flex-row items-center justify-start">
         {value > 0 ? (
-          <Text className="text-6xl tracking-widest font-normal">
+          <Text className="text-5xl tracking-widest font-normal">
             ₱{" "}
             {Number(value.toFixed(2)).toLocaleString("en-US", {
               minimumFractionDigits: 2,

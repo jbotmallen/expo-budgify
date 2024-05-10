@@ -1,4 +1,4 @@
-import { View, Text, Pressable, ActivityIndicator } from "react-native";
+import { View, Text, ActivityIndicator } from "react-native";
 import React, { useEffect, useMemo, useState } from "react";
 import { useAuth } from "@/utils/context/AuthContext";
 import { AntDesign } from "@expo/vector-icons";
@@ -63,8 +63,8 @@ export default function Home() {
         </Text>
       ) : (
         <>
-          <Text className="font-bold text-slate-400 text-4xl tracking-widest text-left flex">
-            Hello,
+          <Text className="font-bold text-slate-400 text-4xl tracking-widest text-left">
+            <AntDesign name="user" size={32} />Hello,
             <Text className="text-slate-300">
               {" "}
               {user?.email.split("@")[0]}!
@@ -75,11 +75,11 @@ export default function Home() {
             <Card title="SAVINGS" data={data.savings} />
             <Card title="TRANSFERS" data={data.transfers} />
           </View>
-          <Link href="/home/new" className="absolute bottom-10 right-8">
-            <AntDesign name="pluscircle" size={60} color="slategray" />
-          </Link>
         </>
       )}
+      <Link href="/home/new" className="absolute bottom-10 right-8">
+        <AntDesign name="pluscircle" size={60} color="slategray" />
+      </Link>
     </View>
   );
 }

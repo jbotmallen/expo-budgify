@@ -98,11 +98,11 @@ export const BudgetProvider = ({ children }) => {
     }
   };
 
-  const editBudget = async (userId, budgetId, description) => {
+  const editBudget = async (userId, editedValues) => {
     try {
       setLoading(true);
-      const budgetDocRef = doc(db, "budgets", userId, "content", budgetId);
-      await updateDoc(budgetDocRef, { description: description });
+      const budgetDocRef = doc(db, "budgets", userId, "content", editedValues.id);
+      await updateDoc(budgetDocRef, { ...editedValues, updatedAt: new Date() });
       setLoading(false);
 
       return { success: true };

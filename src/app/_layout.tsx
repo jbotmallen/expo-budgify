@@ -9,7 +9,8 @@ const MainLayout = () => {
   const segments = useSegments();
 
   useEffect(() => {
-    if(!user || typeof isAuthenticated == 'undefined') return
+    if(typeof isAuthenticated == 'undefined') return
+    if(user === null) router.replace('/auth/')
 
     const inApp = segments[0] == '(pages)'
     
@@ -19,8 +20,7 @@ const MainLayout = () => {
       router.replace('/auth/');
     }
     
-  }, [isAuthenticated]);
-
+  }, [isAuthenticated, user]);
 
   return <Slot />
 }

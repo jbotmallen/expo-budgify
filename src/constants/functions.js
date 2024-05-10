@@ -12,6 +12,14 @@ export function convertDateToString(date) {
   return dateObject;
 }
 
+export function convertTimeToDate(dateTime) {
+  const nanosecondsInSeconds = dateTime.nanoseconds / 1_000_000_000;
+  const totalSeconds = dateTime.seconds + nanosecondsInSeconds;
+  const date = new Date(totalSeconds * 1000);
+
+  return date;
+}
+
 export const currentMonth = new Date().toLocaleString("default", {
   month: "long",
 });

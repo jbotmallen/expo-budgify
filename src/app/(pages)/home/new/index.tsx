@@ -17,6 +17,8 @@ import {
   numbers,
   expenseChoices,
   categoryChoices,
+  expenseIcons,
+  categoryIcons,
 } from "@/constants/constants";
 import { useAuth } from "@/utils/context/AuthContext";
 import { useBudget } from "@/utils/context/BudgetContext";
@@ -118,9 +120,8 @@ export default function Add() {
                     className="w-1/2 h-4/5 border-2 border-slate-400 flex flex-row items-center justify-between rounded-2xl px-5 flex-1"
                   >
                     <Text
-                      className={`${
-                        formValues.expenses ? "text-2xl" : "text-2xl"
-                      } text-slate-400 font-semibold`}
+                      className={`${formValues.expenses ? "text-2xl" : "text-2xl"
+                        } text-slate-400 font-semibold`}
                     >
                       {formValues.expenses ? formValues.expenses : "expenses"}
                     </Text>
@@ -131,9 +132,8 @@ export default function Add() {
                     className="w-1/2 h-4/5 border-2 border-slate-400 flex flex-row items-center justify-between rounded-2xl px-5"
                   >
                     <Text
-                      className={`${
-                        formValues.category ? "text-2xl" : "text-2xl"
-                      } text-slate-400 font-semibold`}
+                      className={`${formValues.category ? "text-2xl" : "text-2xl"
+                        } text-slate-400 font-semibold`}
                     >
                       {formValues.category ? formValues.category : "category"}
                     </Text>
@@ -154,7 +154,7 @@ export default function Add() {
                     }
                     placeholder="Enter description here..."
                     style={{ textAlignVertical: "top" }}
-                    className="p-5 w-full text-left border-slate-400 border-2 rounded-2xl relative text-2xl text-slate-300 tracking-wider placeholder:text-slate-400"
+                    className="p-5 h-4/5 from w-full text-left border-slate-400 border-2 rounded-2xl relative text-2xl text-slate-300 tracking-wider placeholder:text-slate-400"
                   />
                 </View>
                 <View className="w-full h-1/6 grid row-span-2 mb-2">
@@ -211,22 +211,22 @@ export default function Add() {
         </View>
       </Modal>
       <Modal animationType="slide" transparent={false} visible={visible !== ""}>
-        <View className="h-full w-full bg-slate-200 flex items-center justify-center relative">
+        <View className="h-screen w-screen bg-slate-800 relative">
           <Ionicons
             name="close"
-            size={50}
+            size={60}
             color="gray"
             onPress={() => setVisible("")}
-            className="absolute top-8 right-10 z-10"
+            className="absolute top-12 right-8 z-10"
           />
-          <ScrollView className="max-h-5/6 h-5/6 w-5/6 rounded-xl my-10 relative">
-            <Text className="text-4xl font-medium mb-2">
-              Choose your {visible}
+          <ScrollView className="max-h-5/6 h-5/6 w-full rounded-xl relative py-16 px-10">
+            <Text className="text-4xl font-semibold mb-5 text-slate-200">
+              <AntDesign name="bars" size={32} /> Choose your {visible}
             </Text>
             {(visible === "expense" ? expenseChoices : categoryChoices).map(
               (item, index) => (
                 <Pressable
-                  className="border-b flex flex-col p-5"
+                  className="border-b-2 border-slate-200 flex flex-row w-full items-center p-3"
                   key={index}
                   onPress={() => {
                     if (visible === "expense") {
@@ -237,7 +237,18 @@ export default function Add() {
                     setVisible("");
                   }}
                 >
-                  <Text className="text-3xl">{item}</Text>
+                  <Ionicons
+                    name={visible === 'expense' ? expenseIcons[index] as | "fast-food"
+                      | "car"
+                      | "medkit"
+                      | "tennisball"
+                      | "school"
+                      | "add-circle" : categoryIcons[index] as | "bag-add"
+
+                    } size={40} color='slategray' />
+                  <Text className="text-3xl text-slate-200 p-8">
+                    {item}
+                  </Text>
                 </Pressable>
               )
             )}
