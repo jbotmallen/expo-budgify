@@ -1,4 +1,4 @@
-import { View, Text, Pressable, Alert } from 'react-native'
+import { View, Text, Pressable, Alert, Image } from 'react-native'
 import React from 'react'
 import { useAuth } from '@/utils/context/AuthContext';
 import { SimpleLineIcons } from '@expo/vector-icons';
@@ -12,9 +12,9 @@ export default function Header() {
     }
 
     return (
-        <View className="bg-slate-950 p-5 w-screen h-[8%] fixed flex justify-center rounded-b-xl top-0">
+        <View className="bg-slate-950 w-screen h-[8%] pr-5 fixed flex justify-center rounded-b-xl top-0">
             <View className='w-full flex flex-row justify-between items-center'>
-                <Text className='text-slate-400 text-2xl tracking-wider text-left'>BUDGIFY</Text>
+                <Image source={require('../../../../public/logo.png')} style={{ height: 200, width: 200 }} />
                 <Pressable onPress={() => handleLogout()}>
                     <SimpleLineIcons name="logout" size={20} color="white" />
                 </Pressable>

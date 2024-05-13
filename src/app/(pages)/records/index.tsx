@@ -182,6 +182,7 @@ export default function Records() {
   return (
     <View className="bg-slate-800 h-screen w-screen px-5 flex flex-col gap-5">
       <View className="w-full h-[8%] flex flex-row items-end justify-start gap-2">
+        <Ionicons name="book" size={32} color="slategray" className="mr-3"/>
         <Text className="text-4xl text-slate-300 font-medium tracking-widest">
           Your
         </Text>
