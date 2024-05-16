@@ -9,12 +9,14 @@ export default function CashFlowHeader({ category, data, onPress, isActive }) {
 
   return (
     <Pressable style={containerStyle} onPress={onPress}>
-      <Text style={styles.text} className="text-slate-400 ">
+      <Text
+        style={styles.text}
+        className="text-slate-400 font-boldw-full text-center"
+      >
         {category}
       </Text>
-      <Text style={secondTextStyle} className="font-bold">
-        {" "}
-        ₱{" "}
+      <Text style={secondTextStyle} className="font-bold w-full text-center">
+        ₱
         {Number(data.toFixed(2)).toLocaleString("en-US", {
           minimumFractionDigits: 2,
           maximumFractionDigits: 2,
@@ -26,11 +28,12 @@ export default function CashFlowHeader({ category, data, onPress, isActive }) {
 const styles = StyleSheet.create({
   container: {
     display: "flex",
+    borderColor: "white",
     flexDirection: "column",
     justifyContent: "center",
     alignItems: "center",
     gap: 5,
-    height: "100%",
+    height: "80%",
     width: "33%",
     padding: 10,
     backgroundColor: "#0008",
@@ -38,17 +41,17 @@ const styles = StyleSheet.create({
   },
   text: {
     display: "flex",
-    fontWeight: "500",
-    fontSize: 22,
+    fontWeight: "800",
+    fontSize: 16,
     justifyContent: "center",
   },
   textRed: {
     color: "red",
-    fontSize: 20,
+    fontSize: 22,
   },
   textGreen: {
     color: "green",
-    fontSize: 20,
+    fontSize: 22,
   },
   activeContainer: {
     backgroundColor: "#2d274f",

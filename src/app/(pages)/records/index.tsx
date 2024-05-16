@@ -10,7 +10,11 @@ import {
 } from "react-native";
 import DatePicker from "@react-native-community/datetimepicker";
 import React, { useEffect, useMemo, useState } from "react";
-import { expenseChoices, expenseIcons, recordTags } from "@/constants/constants";
+import {
+  expenseChoices,
+  expenseIcons,
+  recordTags,
+} from "@/constants/constants";
 import { useAuth } from "@/utils/context/AuthContext";
 import { useBudget } from "@/utils/context/BudgetContext";
 import { Picker } from "@react-native-picker/picker";
@@ -25,24 +29,22 @@ import { router } from "expo-router";
 export default function Records() {
   const [selected, setSelected] = useState("Expense");
   const [records, setRecords] = useState([]);
-  
+
   const [editing, setEditing] = useState(false);
   const [openModal, setOpenModal] = useState(false);
   const [showDatePicker, setShowDatePicker] = useState(false);
 
   const [editValues, setEditValues] = useState({
-    id: '',
-    description: '',
+    id: "",
+    description: "",
     date: new Date(),
     expenses: "",
-    value: '',
-  })
+    value: "",
+  });
   const [sortBy, setSortBy] = useState("");
   const [searchTerm, setSearchTerm] = useState("");
-
   const { user } = useAuth();
   const { getBudget, deleteBudget, editBudget, loading } = useBudget();
-
   useEffect(() => {
     const fetchRecords = async () => {
       const data = await getBudget(user.uid);
@@ -133,16 +135,22 @@ export default function Records() {
   const handleEditPress = (values: any) => {
     if (editing && editValues.id !== "") {
       setEditing(false);
-      setEditValues({ id: "", description: "", date: new Date(), expenses: "", value: "" });
+      setEditValues({
+        id: "",
+        description: "",
+        date: new Date(),
+        expenses: "",
+        value: "",
+      });
     } else {
       const convertedDate = convertTimeToDate(values.date);
       setEditing(true);
       setEditValues({
         id: values.id,
-        description: '',
+        description: values.description,
         date: convertedDate,
         expenses: values.expenses,
-        value: '',
+        value: values.value,
       });
     }
   };
@@ -172,7 +180,6 @@ export default function Records() {
       );
     }
   };
-
   const handleDateChange = (event, selectedDate: Date) => {
     const currentDate = selectedDate || editValues.date;
     setEditValues({ ...editValues, date: currentDate });
@@ -181,33 +188,30 @@ export default function Records() {
 
   return (
     <View className="bg-slate-800 h-screen w-screen px-5 flex flex-col gap-5">
-      <View className="w-full h-[8%] flex flex-row items-end justify-start gap-2">
-        <Ionicons name="book" size={32} color="slategray" className="mr-3"/>
+      <View className="w-full h-[8%] flex flex-row items-end justify-start gap-2 ">
+        <Ionicons name="book" size={30} color="slategray" className="mr-2" />
         <Text className="text-4xl text-slate-300 font-medium tracking-widest">
           Your
         </Text>
-        <Text className="text-4xl text-slate-300 font-bold tracking-widest">
+        <Text className="text-4xl text-slate-300 font-black tracking-widest">
           records
         </Text>
       </View>
 
-      <View
-        className="h-[5%] w-full justify-start items-center flex flex-row"
-      >
+      <View className="h-[5%] w-full justify-start items-center flex flex-row">
         <Picker
           selectedValue={sortBy}
           style={{
             height: 50,
             borderRadius: 20,
             width: "50%",
-            color: "white",
-            fontSize: 12,
+            color: "#A0AEC0",
+            fontSize: 10,
             backgroundColor: "transparent",
             borderColor: "white",
           }}
           dropdownIconColor="white"
           onValueChange={(itemValue) => setSortBy(itemValue)}
-        // prompt="Sort by"
         >
           <Picker.Item
             label="Alphabetical (Ascending)"
@@ -242,7 +246,6 @@ export default function Records() {
             justifyContent: "space-between",
           }}
         >
-          {/* <Text className="text-white">Search</Text> */}
           <TextInput
             placeholder="Search"
             style={{
@@ -290,20 +293,36 @@ export default function Records() {
                           placeholder={record.description || "Description"}
                           multiline
                           numberOfLines={1}
-                          value={editValues.description}
-                          onChangeText={(text) => setEditValues({ ...editValues, description: text })}
-                          className="text-3xl text-slate-400 font-bold placeholder:text-slate-500 border-b-2 border-slate-400 w-5/6"
+                          value={
+                            editing && editValues.id === record.id
+                              ? editValues.description
+                              : record.description
+                          }
+                          onChangeText={(text) =>
+                            setEditValues({ ...editValues, description: text })
+                          }
+                          className="text-3xl text-slate-200 font-bold placeholder:text-slate-500 border-b-2 border-slate-400 w-5/6"
                         />
-                        <Pressable onPress={() => setShowDatePicker(true)}>
+                        <Pressable
+                          onPress={() => setShowDatePicker(true)}
+                          className="flex flex-row gap-4 mb-2 align-middle"
+                        >
                           <Text className="text-lg text-slate-400 font-semibold">
                             {editValues.date.toDateString()}
                           </Text>
+                          <Ionicons
+                            name="calendar-sharp"
+                            size={20}
+                            color="#90A0B0"
+                          />
                         </Pressable>
                         <Pressable
                           onPress={() => setOpenModal(true)}
-                          className="py-0.5 px-3 w-1/2 bg-slate-300 justify-start items-center flex flex-row rounded-lg"
+                          className="py-0.5 w-1/2 justify-start items-center flex flex-row rounded-lg"
                         >
-                          <Text className="text-base text-slate-900 font-semibold bg-blue-200 w-full text-center px-3 py-0.5 rounded-full">{editValues.expenses}</Text>
+                          <Text className="text-base text-slate-900 font-semibold bg-blue-200 w-full text-center px-3 py-0.5 rounded-full">
+                            {editValues.expenses}
+                          </Text>
                         </Pressable>
                       </View>
                     ) : (
@@ -353,16 +372,26 @@ export default function Records() {
                     {editing && editValues.id === record.id ? (
                       <TextInput
                         keyboardType="numeric"
-                        placeholder={`₱ ${numberWithCommas(record.value)}` || "Value"}
-                        onChangeText={(text) => setEditValues({ ...editValues, value: text })}
-                        className="text-2xl text-slate-400 font-bold placeholder:text-slate-500 border-b-2 border-slate-400 w-full"
+                        placeholder={
+                          `₱ ${numberWithCommas(record.value)}` || "Value"
+                        }
+                        value={
+                          editing && editValues.id === record.id
+                            ? editValues.value
+                            : record.value
+                        }
+                        onChangeText={(text) =>
+                          setEditValues({ ...editValues, value: text })
+                        }
+                        className="text-2xl text-slate-200 font-bold placeholder:text-slate-500 border-b-2 text-center border-slate-400 w-[80%]"
                       />
                     ) : (
                       <Text
-                        className={`text-2xl font-semibold ${record.category === "Income"
-                          ? "text-green-500"
-                          : "text-red-400"
-                          }`}
+                        className={`text-2xl font-semibold ${
+                          record.category === "Income"
+                            ? "text-green-500"
+                            : "text-red-400"
+                        }`}
                       >
                         {record.category === "Income" ? "+ " : "- "}₱
                         {numberWithCommas(Number(record.value).toFixed(0))}
@@ -373,7 +402,7 @@ export default function Records() {
               ))
             )}
           </ScrollView>
-          {showDatePicker &&
+          {showDatePicker && (
             <DatePicker
               value={editValues.date}
               mode="date"
@@ -381,46 +410,49 @@ export default function Records() {
               onChange={handleDateChange}
               maximumDate={new Date()}
             />
-          }
-          <Modal animationType="slide" transparent={false} visible={editing && openModal}>
-            <View className="h-screen w-screen bg-slate-800 relative">
+          )}
+          <Modal
+            animationType="slide"
+            transparent={false}
+            visible={editing && openModal}
+          >
+            <View className="h-screen w-screen bg-slate-800 relative align-middle flex">
               <Ionicons
                 name="close"
-                size={60}
-                color="gray"
+                size={30}
+                color="white"
                 onPress={() => setOpenModal(false)}
-                className="absolute top-12 right-8 z-10"
+                className="absolute top-12 right-8 z-10 rounded-full bg-slate-700 p-2"
               />
-              <ScrollView className="max-h-5/6 h-5/6 w-full rounded-xl relative py-16 px-10">
-                <Text className="text-4xl font-semibold mb-5 text-slate-200">
-                  <AntDesign name="bars" size={32} /> Choose your expense
+              <ScrollView className="max-h-5/6 h-5/6 w-full rounded-xl relative py-16 px-10 mt-12">
+                <Text className="text-3xl font-semibold mb-5 text-slate-200">
+                  Choose your expense
                 </Text>
-                {expenseChoices.map(
-                  (item, index) => (
-                    <Pressable
-                      className="border-b-2 border-slate-200 flex flex-row w-full items-center p-3"
-                      key={index}
-                      onPress={() => {
-                        setEditValues({ ...editValues, expenses: item });
-                        setOpenModal(false);
-                      }}
-                    >
-                      <Ionicons
-                        name={expenseIcons[index] as
-                          "fast-food"
+                {expenseChoices.map((item, index) => (
+                  <Pressable
+                    className="border-b-2 border-slate-200 flex flex-row w-full items-center p-3"
+                    key={index}
+                    onPress={() => {
+                      setEditValues({ ...editValues, expenses: item });
+                      setOpenModal(false);
+                    }}
+                  >
+                    <Ionicons
+                      name={
+                        expenseIcons[index] as
+                          | "fast-food"
                           | "car"
                           | "medkit"
                           | "tennisball"
                           | "school"
                           | "add-circle"
-                        } size={40} color='slategray'
-                      />
-                      <Text className="text-3xl text-slate-200 p-8">
-                        {item}
-                      </Text>
-                    </Pressable>
-                  )
-                )}
+                      }
+                      size={30}
+                      color="slategray"
+                    />
+                    <Text className="text-2xl text-slate-200 p-4">{item}</Text>
+                  </Pressable>
+                ))}
               </ScrollView>
             </View>
           </Modal>
@@ -434,8 +466,9 @@ const TagPressables = ({ title, selected, setSelected }) => {
   return (
     <Pressable
       onPress={() => setSelected(title)}
-      className={`${selected === title ? "bg-slate-300" : "bg-slate-500"
-        } h-full py-2 w-32 rounded-full flex flex-row justify-center items-center transition-all duration-300`}
+      className={`${
+        selected === title ? "bg-slate-300" : "bg-slate-500"
+      } h-full py-2 w-32 rounded-full flex flex-row justify-center items-center transition-all duration-300`}
     >
       <Text className="text-xl text-slate-900 font-semibold text-center">
         {title}

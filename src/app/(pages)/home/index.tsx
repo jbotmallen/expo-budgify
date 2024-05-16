@@ -11,6 +11,8 @@ export default function Home() {
   const { user } = useAuth();
   const { getBudget } = useBudget();
   const [budget, setBudget] = useState([]);
+  const [recordsUpdated, setRecordsUpdated] = useState(false);
+
   const { loading } = useBudget();
 
   useEffect(() => {
@@ -19,8 +21,6 @@ export default function Home() {
       setBudget(data);
     };
     fetchBudget();
-
-    return () => { };
   }, []);
 
   const data = useMemo(() => {
@@ -50,9 +50,8 @@ export default function Home() {
       </View>
     );
 
-
   return (
-    <View className="py-16 px-5 h-4/5 bg-slate-800 relative flex-1 gap-7">
+    <View className="py-14 px-6 h-4/5 bg-slate-800 relative flex-1 gap-12">
       {loading ? (
         <View className="flex-1 justify-center items-center">
           <ActivityIndicator size="large" color="slategray" />
@@ -63,17 +62,20 @@ export default function Home() {
         </Text>
       ) : (
         <>
-          <Text className="font-bold text-slate-400 text-4xl tracking-widest text-left">
-            <AntDesign name="user" size={32} />Hello,
-            <Text className="text-slate-300">
-              {" "}
-              {user?.email.split("@")[0]}!
+          <View className="flex flex-row align-middle items-center gap-2">
+            {/* <AntDesign name="user" size={60} color="#A0AEC0" /> */}
+
+            <Text className="text-4xl text-slate-400 tracking-widest text-left">
+              Hello,{" "}
+              <Text className="text-slate-300 font-black">
+                {user?.email.split("@")[0]}
+              </Text>{" "}
+              !
             </Text>
-          </Text>
-          <View className="max-h-3/4 w-full flex flex-col gap-5 border-slate-400 border-4 p-5 rounded-xl">
+          </View>
+          <View className="max-h-3/4 w-full flex flex-col gap-5 rounded-xl">
             <Card title="EXPENSES" data={data.expenses} />
             <Card title="SAVINGS" data={data.savings} />
-            <Card title="TRANSFERS" data={data.transfers} />
           </View>
         </>
       )}

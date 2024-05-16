@@ -1,9 +1,7 @@
-import { Slot } from 'expo-router';
+import { Slot } from "expo-router";
 
 const Layout = () => {
-    return (
-        <Slot />
-    )
-}
+  return <Slot />;
+};
 
-export default Layout
+export default Layout;

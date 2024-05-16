@@ -22,14 +22,15 @@ export default function Analytics() {
   const [selectedMonth, setSelectedMonth] = useState(new Date().getMonth());
   const [selectedYear, setSelectedYear] = useState(new Date().getFullYear());
   const [cashFlowCategory, setCashFlowCategory] = useState("Expense");
-  const [activeCashFlowCategory, setActiveCashFlowCategory] = useState("Expense");
-  
+  const [activeCashFlowCategory, setActiveCashFlowCategory] =
+    useState("Expense");
+
   useEffect(() => {
     const fetchBudget = async () => {
       const data = await getBudget(user.uid);
       setBudget(data);
     };
-    fetchBudget()
+    fetchBudget();
   }, []);
 
   useEffect(() => {
@@ -48,6 +49,13 @@ export default function Analytics() {
     setUniqueCategories(unique_categories);
   }, [budget, selectedMonth, selectedYear, cashFlowCategory]);
 
+  // useEffect(() => {
+  //   const fetchBudget = async () => {
+  //     const data = await getBudget(user.uid);
+  //     setBudget(data);
+  //   };
+  //   fetchBudget();
+  // }, [user.uid]);
   const formatDate = (timestamp) => {
     const date = new Date(timestamp.seconds * 1000);
     return date.toLocaleString("en-US", {
@@ -91,21 +99,21 @@ export default function Analytics() {
     cash_flow_category
   ) => {
     const total =
-    cash_flow_category === "Income" ? savings_total : expenses_total;
-    
+      cash_flow_category === "Income" ? savings_total : expenses_total;
+
     const categoryTotals = categories.map((category) => {
       const total_per_category = budgetList
         .filter((item) => item.expenses === category)
         .reduce((acc, curr) => acc + parseFloat(curr.value), 0);
-        const percentage = total !== 0 ? (total_per_category / total) * 100 : 0;
-        
-        return {
-          name: category,
-          amount: total_per_category,
-          percentage: percentage,
-        };
-      });
-      
+      const percentage = total !== 0 ? (total_per_category / total) * 100 : 0;
+
+      return {
+        name: category,
+        amount: total_per_category,
+        percentage: percentage,
+      };
+    });
+
     return categoryTotals;
   };
 
@@ -150,7 +158,11 @@ export default function Analytics() {
         />
       </View>
       {loading ? (
-        <ActivityIndicator size={150} color="slategray" className="fixed top-1/4 left-0" />
+        <ActivityIndicator
+          size={150}
+          color="slategray"
+          className="fixed top-1/4 left-0"
+        />
       ) : sumCategory.length === 0 && !loading ? (
         <Text style={styles.noRecordsText}>No records yet!</Text>
       ) : (

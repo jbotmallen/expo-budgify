@@ -116,26 +116,28 @@ export default function Add() {
               <>
                 <View className="w-full h-[15%] flex flex-row justify-between items-center gap-2 mb-3">
                   <Pressable
-                    onPress={() => setVisible("expense")}
-                    className="w-1/2 h-4/5 border-2 border-slate-400 flex flex-row items-center justify-between rounded-2xl px-5 flex-1"
-                  >
-                    <Text
-                      className={`${formValues.expenses ? "text-2xl" : "text-2xl"
-                        } text-slate-400 font-semibold`}
-                    >
-                      {formValues.expenses ? formValues.expenses : "expenses"}
-                    </Text>
-                    <Ionicons name="caret-down" size={24} color="gray" />
-                  </Pressable>
-                  <Pressable
                     onPress={() => setVisible("category")}
                     className="w-1/2 h-4/5 border-2 border-slate-400 flex flex-row items-center justify-between rounded-2xl px-5"
                   >
                     <Text
-                      className={`${formValues.category ? "text-2xl" : "text-2xl"
-                        } text-slate-400 font-semibold`}
+                      className={`${
+                        formValues.category ? "text-2xl" : "text-2xl"
+                      } text-slate-400 font-semibold`}
                     >
                       {formValues.category ? formValues.category : "category"}
+                    </Text>
+                    <Ionicons name="caret-down" size={24} color="gray" />
+                  </Pressable>
+                  <Pressable
+                    onPress={() => setVisible("expense")}
+                    className="w-1/2 h-4/5 border-2 border-slate-400 flex flex-row items-center justify-between rounded-2xl px-5 flex-1"
+                  >
+                    <Text
+                      className={`${
+                        formValues.expenses ? "text-2xl" : "text-2xl"
+                      } text-slate-400 font-semibold`}
+                    >
+                      {formValues.expenses ? formValues.expenses : "expenses"}
                     </Text>
                     <Ionicons name="caret-down" size={24} color="gray" />
                   </Pressable>
@@ -178,7 +180,9 @@ export default function Add() {
             <View className="w-full h-1/2 flex flex-col gap-3 mt-2">
               <View className="w-full h-1/4 border-slate-400 border-2 flex flex-row items-center justify-between rounded-2xl">
                 <Text className="text-right w-3/4 text-6xl font-semibold text-slate-300 placeholder:text-slate-400 flex">
-                  {formValues.value ? Number(formValues.value).toLocaleString() : "0"}
+                  {formValues.value
+                    ? Number(formValues.value).toLocaleString()
+                    : "0"}
                 </Text>
                 <View className="w-1/4 h-full flex items-center justify-center">
                   <TouchableOpacity
@@ -238,17 +242,21 @@ export default function Add() {
                   }}
                 >
                   <Ionicons
-                    name={visible === 'expense' ? expenseIcons[index] as | "fast-food"
-                      | "car"
-                      | "medkit"
-                      | "tennisball"
-                      | "school"
-                      | "add-circle" : categoryIcons[index] as | "bag-add"
-
-                    } size={40} color='slategray' />
-                  <Text className="text-3xl text-slate-200 p-8">
-                    {item}
-                  </Text>
+                    name={
+                      visible === "expense"
+                        ? (expenseIcons[index] as
+                            | "fast-food"
+                            | "car"
+                            | "medkit"
+                            | "tennisball"
+                            | "school"
+                            | "add-circle")
+                        : (categoryIcons[index] as "bag-add")
+                    }
+                    size={40}
+                    color="slategray"
+                  />
+                  <Text className="text-3xl text-slate-200 p-8">{item}</Text>
                 </Pressable>
               )
             )}
