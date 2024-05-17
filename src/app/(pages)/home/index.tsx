@@ -53,7 +53,7 @@ export default function Home() {
     );
 
   return (
-    <View className="py-14 px-6 h-4/5 bg-slate-800 relative flex-1 gap-12">
+    <View className="py-14 px-6 h-4/5 bg-[#051728] relative flex-1 gap-12">
       {loading ? (
         <View className="flex-1 justify-center items-center">
           <ActivityIndicator size="large" color="slategray" />
@@ -67,9 +67,9 @@ export default function Home() {
           <View className="flex flex-row align-middle items-center gap-2">
             {/* <AntDesign name="user" size={60} color="#A0AEC0" /> */}
 
-            <Text className="text-4xl text-slate-400 tracking-widest text-left">
+            <Text className="text-4xl text-[#7590d8] tracking-widest text-left">
               Hello,{" "}
-              <Text className="text-slate-300 font-black">
+              <Text className="text-slate-200 font-black">
                 {user?.email.split("@")[0]}
               </Text>{" "}
               !
@@ -82,7 +82,7 @@ export default function Home() {
         </>
       )}
       <Link href="/home/new" className="absolute bottom-10 right-8">
-        <AntDesign name="pluscircle" size={60} color="slategray" />
+        <AntDesign name="pluscircle" size={60} color="#E2E8F0" />
       </Link>
     </View>
   );

@@ -178,14 +178,14 @@ export default function Analytics() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#1A202C",
+    backgroundColor: "#051728",
     position: "relative",
   },
   cashFlowHeadersContainer: {
     flexDirection: "row",
     height: "20%",
     width: "100%",
-    backgroundColor: "#1A202C",
+    backgroundColor: "#051728",
     padding: 10,
     gap: 5,
   },

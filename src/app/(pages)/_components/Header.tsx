@@ -12,7 +12,7 @@ export default function Header() {
   };
 
   return (
-    <View className="bg-slate-950 w-screen h-[8%] pl-1 pr-8 fixed flex justify-center top-0">
+    <View className="bg-[#13304B] w-screen h-[8%] pl-1 pr-8 fixed flex justify-center top-0">
       <View className="w-full flex flex-row justify-between items-center">
         <Image
           source={require("../../../../public/logo.png")}

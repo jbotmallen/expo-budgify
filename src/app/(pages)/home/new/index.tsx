@@ -109,7 +109,7 @@ export default function Add() {
   return (
     <>
       <Modal animationType="slide" transparent={false}>
-        <View className="bg-slate-800 h-screen w-screen px-5 flex flex-col justify-center gap-3 items-center">
+        <View className="bg-[#051728] h-screen w-screen px-5 flex flex-col justify-center gap-3 items-center">
           <View className="w-full h-[45%] flex flex-col justify-start items-center gap-">
             <View className="flex flex-row items-center w-full h-1/6 justify-between">
               <Link href="/home">

@@ -8,7 +8,7 @@ export default function Navbar() {
   const currentPath = usePathname();
 
   return (
-    <View className="bg-slate-900 h-[9%] w-screen rounded-t-2xl ">
+    <View className="bg-[#13304B] h-[9%] w-screen rounded-t-2xl ">
       <View className="h-full w-full flex flex-row justify-between items-center px-16">
         {routes.map((route, index) => (
           <CustomLinks
@@ -17,7 +17,7 @@ export default function Navbar() {
               <MaterialIcons
                 name={route.icon as keyof typeof MaterialIcons.glyphMap}
                 size={30}
-                color={`${currentPath === route.path ? "white" : "gray"}`}
+                color={`${currentPath === route.path ? "white" : "#8190B6"}`}
               />
             }
             text={route.name}
@@ -37,7 +37,7 @@ const CustomLinks = ({ icon, text, link, path }) => {
         {icon}
         <Text
           className={`${
-            path === link ? "text-gray-100" : "text-gray-600"
+            path === link ? "text-gray-100" : "text-[#8190B6]"
           } font-medium text-sm`}
         >
           {text}
