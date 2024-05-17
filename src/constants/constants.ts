@@ -24,8 +24,12 @@ export const routes = [
    'Food', 'Transport', 'Health', 'Leisure', 'Education', 'Others'
  ]
 
+ export const incomeChoices = [
+  "Salary", "Allowance"
+ ]
+
  export const categoryChoices = [
-   'Income', 'Expense', 'Transfer'
+   'Income', 'Expense'
  ]
  export const recordTags = [
     'Expense', 'Income', 'Transfer'
@@ -35,13 +39,21 @@ export const routes = [
    'fast-food', 'car', 'medkit', 'tennisball', 'school', 'add-circle'
  ]
 
+ export const incomeIcons = [
+  "card", "cash"
+ ]
  export const categoryIcons = [
     'bag-add', 'cash', 'card'
  ]
 
- export const choiceIconPair = expenseChoices.map((category, index) => ({
+ export const expenseIconPair = expenseChoices.map((category, index) => ({
   category: category,
   icon: expenseIcons[index]
+}));
+
+export const incomeIconPair = incomeChoices.map((category, index) => ({
+  category: category,
+  icon: incomeIcons[index]
 }));
 
 export const bgColors = [

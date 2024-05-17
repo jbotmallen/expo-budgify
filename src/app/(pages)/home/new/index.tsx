@@ -19,6 +19,8 @@ import {
   categoryChoices,
   expenseIcons,
   categoryIcons,
+  incomeChoices,
+  incomeIcons,
 } from "@/constants/constants";
 import { useAuth } from "@/utils/context/AuthContext";
 import { useBudget } from "@/utils/context/BudgetContext";
@@ -63,6 +65,15 @@ export default function Add() {
     setShowDatePicker(false);
   };
 
+  const handleCategoryChange = (category) => {
+    setVisible(category);
+
+    setFormValues((prevValues) => ({
+      ...prevValues,
+      category,
+      expenses: "",
+    }));
+  };
   const handleSave = async () => {
     if (
       formValues.value === "" ||
@@ -85,6 +96,14 @@ export default function Add() {
     }
 
     setLoading(false);
+  };
+  const getChoices = () => {
+    switch (formValues.category) {
+      case "Income":
+        return { choices: incomeChoices, icons: incomeIcons };
+      default:
+        return { choices: expenseChoices, icons: expenseIcons };
+    }
   };
 
   return (
@@ -124,6 +143,7 @@ export default function Add() {
                         formValues.category ? "text-2xl" : "text-2xl"
                       } text-slate-400 font-semibold`}
                     >
+                      {/* FIRST DROPDOWN */}
                       {formValues.category ? formValues.category : "category"}
                     </Text>
                     <Ionicons name="caret-down" size={24} color="gray" />
@@ -137,13 +157,14 @@ export default function Add() {
                         formValues.expenses ? "text-2xl" : "text-2xl"
                       } text-slate-400 font-semibold`}
                     >
-                      {formValues.expenses ? formValues.expenses : "expenses"}
+                      {/* SECOND DROPDOWN */}
+                      {formValues.expenses ? formValues.expenses : "allocation"}
                     </Text>
                     <Ionicons name="caret-down" size={24} color="gray" />
                   </Pressable>
                 </View>
                 <View className="w-full h-2/5 grid row-span-2">
-                  <Text className="text-xl text-white tracking-wider font-semibold text-left  mb-1">
+                  <Text className="text-xl text-slate-400 tracking-wider font-semibold text-left  mb-1">
                     Description
                   </Text>
                   <TextInput
@@ -160,7 +181,7 @@ export default function Add() {
                   />
                 </View>
                 <View className="w-full h-1/6 grid row-span-2 mb-2">
-                  <Text className="text-xl text-white font-bold tracking-wider text-left mb-2">
+                  <Text className="text-xl text-slate-400 font-bold tracking-wider text-left mb-2">
                     Transaction date
                   </Text>
                   <Pressable
@@ -225,10 +246,11 @@ export default function Add() {
           />
           <ScrollView className="max-h-5/6 h-5/6 w-full rounded-xl relative py-16 px-10">
             <Text className="text-4xl font-semibold mb-5 text-slate-200">
-              <AntDesign name="bars" size={32} /> Choose your {visible}
+              Choose your {visible}
             </Text>
-            {(visible === "expense" ? expenseChoices : categoryChoices).map(
-              (item, index) => (
+            {(visible === "expense" ? getChoices().choices : categoryChoices)
+              // DEOPDOWN CHOICES IE EXPENSE INCOME
+              .map((item, index) => (
                 <Pressable
                   className="border-b-2 border-slate-200 flex flex-row w-full items-center p-3"
                   key={index}
@@ -236,7 +258,7 @@ export default function Add() {
                     if (visible === "expense") {
                       setFormValues({ ...formValues, expenses: item });
                     } else {
-                      setFormValues({ ...formValues, category: item });
+                      handleCategoryChange(item);
                     }
                     setVisible("");
                   }}
@@ -251,15 +273,14 @@ export default function Add() {
                             | "tennisball"
                             | "school"
                             | "add-circle")
-                        : (categoryIcons[index] as "bag-add")
+                        : (incomeIcons[index] as "card" | "cash")
                     }
-                    size={40}
+                    size={30}
                     color="slategray"
                   />
-                  <Text className="text-3xl text-slate-200 p-8">{item}</Text>
+                  <Text className="text-2xl text-slate-200 p-4">{item}</Text>
                 </Pressable>
-              )
-            )}
+              ))}
           </ScrollView>
         </View>
       </Modal>

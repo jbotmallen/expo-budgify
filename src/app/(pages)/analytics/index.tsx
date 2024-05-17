@@ -47,13 +47,6 @@ export default function Analytics() {
     setUniqueCategories(unique_categories);
   }, [budget, selectedMonth, selectedYear, cashFlowCategory]);
 
-  // useEffect(() => {
-  //   const fetchBudget = async () => {
-  //     const data = await getBudget(user.uid);
-  //     setBudget(data);
-  //   };
-  //   fetchBudget();
-  // }, [user.uid]);
   const formatDate = (timestamp) => {
     const date = new Date(timestamp.seconds * 1000);
     return date.toLocaleString("en-US", {
@@ -168,7 +161,12 @@ export default function Analytics() {
           <DataViz data={sumCategory} />
           <ScrollView contentContainerStyle={styles.scrollViewContent}>
             {sumCategory.map((choice, index) => (
-              <ExpensesCard key={index} data={choice} colorIndex={index} />
+              <ExpensesCard
+                key={index}
+                data={choice}
+                colorIndex={index}
+                category={cashFlowCategory}
+              />
             ))}
           </ScrollView>
         </>

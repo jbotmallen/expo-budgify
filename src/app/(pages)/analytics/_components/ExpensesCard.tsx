@@ -1,10 +1,18 @@
 import { StyleSheet, Text, View, Dimensions } from "react-native";
-import { choiceIconPair } from "@/constants/constants";
-import { Ionicons } from "@expo/vector-icons";
-import React from "react";
+import { expenseIconPair } from "@/constants/constants";
+import { incomeIconPair } from "@/constants/constants";
 
-const ExpensesCard = ({ data, colorIndex }) => {
-  const iconPair = choiceIconPair.find((pair) => pair.category === data.name);
+import { Ionicons } from "@expo/vector-icons";
+import React, { useEffect } from "react";
+
+const ExpensesCard = ({ data, colorIndex, category }) => {
+  let iconPair = null;
+
+  if (category.toLowerCase() === "expense") {
+    iconPair = expenseIconPair.find((pair) => pair.category === data.name);
+  } else if (category.toLowerCase() === "income") {
+    iconPair = incomeIconPair.find((pair) => pair.category === data.name);
+  }
   const iconName = iconPair ? iconPair.icon : "add-circle";
 
   const remainingPercentage = 100 - data.percentage;
@@ -19,6 +27,8 @@ const ExpensesCard = ({ data, colorIndex }) => {
             | "medkit"
             | "tennisball"
             | "school"
+            | "cash"
+            | "card"
             | "add-circle"
         }
         size={40}

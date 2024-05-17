@@ -429,7 +429,7 @@ export default function Records() {
                 </Text>
                 {expenseChoices.map((item, index) => (
                   <Pressable
-                    className="border-b-2 border-slate-200 flex flex-row w-full items-center p-3"
+                    className="border-b-1 border-slate-200 flex flex-row w-full items-center p-3"
                     key={index}
                     onPress={() => {
                       setEditValues({ ...editValues, expenses: item });
