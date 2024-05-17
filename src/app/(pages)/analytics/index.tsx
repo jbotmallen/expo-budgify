@@ -40,9 +40,7 @@ export default function Analytics() {
         formatDate(item.date).includes(getMonthName(selectedMonth)) &&
         new Date(item.date.seconds * 1000).getFullYear() === selectedYear
     );
-
     setFilteredData(expenses_list);
-
     const unique_categories = [
       ...new Set(expenses_list.map((item) => item.expenses)),
     ];

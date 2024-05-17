@@ -25,15 +25,14 @@ import {
 } from "../../../constants/functions";
 import { AntDesign, Ionicons } from "@expo/vector-icons";
 import { router } from "expo-router";
+import { useFocusEffect } from "@react-navigation/native";
 
 export default function Records() {
   const [selected, setSelected] = useState("Expense");
   const [records, setRecords] = useState([]);
-
   const [editing, setEditing] = useState(false);
   const [openModal, setOpenModal] = useState(false);
   const [showDatePicker, setShowDatePicker] = useState(false);
-
   const [editValues, setEditValues] = useState({
     id: "",
     description: "",
@@ -45,15 +44,15 @@ export default function Records() {
   const [searchTerm, setSearchTerm] = useState("");
   const { user } = useAuth();
   const { getBudget, deleteBudget, editBudget, loading } = useBudget();
-  useEffect(() => {
-    const fetchRecords = async () => {
-      const data = await getBudget(user.uid);
-      setRecords(data);
-    };
-
-    fetchRecords();
-  }, []);
-
+  useFocusEffect(
+    React.useCallback(() => {
+      const fetchRecords = async () => {
+        const data = await getBudget(user.uid);
+        setRecords(data);
+      };
+      fetchRecords();
+    }, [user.uid])
+  );
   const filteredRecords = useMemo(() => {
     const filtered = records.filter((record) =>
       selected.toLowerCase().includes(record.category.toLowerCase())

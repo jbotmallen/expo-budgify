@@ -6,22 +6,24 @@ import Card from "./_components/Card";
 import { Link } from "expo-router";
 import { useBudget } from "@/utils/context/BudgetContext";
 import { currentMonth, formatDate } from "@/constants/functions";
+import { useFocusEffect } from "@react-navigation/native";
 
 export default function Home() {
   const { user } = useAuth();
   const { getBudget } = useBudget();
   const [budget, setBudget] = useState([]);
-  const [recordsUpdated, setRecordsUpdated] = useState(false);
 
   const { loading } = useBudget();
 
-  useEffect(() => {
-    const fetchBudget = async () => {
-      const data = await getBudget(user.uid);
-      setBudget(data);
-    };
-    fetchBudget();
-  }, []);
+  useFocusEffect(
+    React.useCallback(() => {
+      const fetchBudget = async () => {
+        const data = await getBudget(user.uid);
+        setBudget(data);
+      };
+      fetchBudget();
+    }, [user.uid])
+  );
 
   const data = useMemo(() => {
     return {
