@@ -18,7 +18,6 @@ import {
   expenseChoices,
   categoryChoices,
   expenseIcons,
-  categoryIcons,
   incomeChoices,
   incomeIcons,
 } from "@/constants/constants";
@@ -265,7 +264,7 @@ export default function Add() {
                 >
                   <Ionicons
                     name={
-                      visible === "expense"
+                      formValues.category === "Expense"
                         ? (expenseIcons[index] as
                             | "fast-food"
                             | "car"

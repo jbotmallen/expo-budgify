@@ -164,7 +164,6 @@ export default function Analytics() {
               <ExpensesCard
                 key={index}
                 data={choice}
-                colorIndex={index}
                 category={cashFlowCategory}
               />
             ))}

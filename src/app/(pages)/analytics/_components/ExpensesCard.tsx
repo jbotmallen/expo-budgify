@@ -3,9 +3,9 @@ import { expenseIconPair } from "@/constants/constants";
 import { incomeIconPair } from "@/constants/constants";
 
 import { Ionicons } from "@expo/vector-icons";
-import React, { useEffect } from "react";
+import React from "react";
 
-const ExpensesCard = ({ data, colorIndex, category }) => {
+const ExpensesCard = ({ data, category }) => {
   let iconPair = null;
 
   if (category.toLowerCase() === "expense") {
