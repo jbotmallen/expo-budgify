@@ -57,7 +57,6 @@ export default function Add() {
       });
     }
   };
-
   const handleDateChange = (event, selectedDate: Date) => {
     const currentDate = selectedDate || formValues.date;
     setFormValues({ ...formValues, date: currentDate });

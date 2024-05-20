@@ -47,6 +47,8 @@ export const AuthProvider = ({ children }) => {
   const logout = async () => {
     try {
       await signOut(auth);
+      setUser(null);
+      setIsAuthenticated(false);
       return { success: true };
     } catch (error) {
       let msg = errorChecks(error.message);

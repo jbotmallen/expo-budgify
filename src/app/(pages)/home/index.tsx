@@ -17,14 +17,15 @@ export default function Home() {
 
   useFocusEffect(
     React.useCallback(() => {
-      const fetchBudget = async () => {
-        const data = await getBudget(user.uid);
-        setBudget(data);
-      };
-      fetchBudget();
-    }, [user.uid])
+      if (user?.uid) {
+        const fetchBudget = async () => {
+          const data = await getBudget(user.uid);
+          setBudget(data);
+        };
+        fetchBudget();
+      }
+    }, [user?.uid])
   );
-
   const data = useMemo(() => {
     return {
       expenses: budget.filter(

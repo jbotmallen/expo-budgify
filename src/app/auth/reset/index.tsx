@@ -26,9 +26,14 @@ export default function Reset() {
       if (res.success) {
         Alert.alert(
           "Success",
-          "Password reset instructions sent to your email"
+          "Password reset instructions sent to your email",
+          [
+            {
+              text: "OK",
+              onPress: () => router.replace("/auth/login"),
+            },
+          ]
         );
-        router.replace("/auth/login");
       } else {
         Alert.alert("Error", res.msg);
       }

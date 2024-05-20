@@ -2,13 +2,18 @@ import { View, Text, Pressable, Alert, Image } from "react-native";
 import React from "react";
 import { useAuth } from "@/utils/context/AuthContext";
 import { SimpleLineIcons } from "@expo/vector-icons";
+import { router } from "expo-router";
 
 export default function Header() {
   const { logout } = useAuth();
 
   const handleLogout = async () => {
     const res = await logout();
-    if (!res.success) return Alert.alert(res.msg);
+    if (!res.success) {
+      return Alert.alert(res.msg);
+    } else {
+      router.replace("/auth/login"); // Redirect to Login screen
+    }
   };
 
   return (

@@ -13,8 +13,11 @@ import React, { useEffect, useMemo, useState } from "react";
 import {
   expenseChoices,
   expenseIcons,
+  incomeChoices,
+  incomeIcons,
   recordTags,
 } from "@/constants/constants";
+
 import { useAuth } from "@/utils/context/AuthContext";
 import { useBudget } from "@/utils/context/BudgetContext";
 import { Picker } from "@react-native-picker/picker";
@@ -31,6 +34,8 @@ export default function Records() {
   const [selected, setSelected] = useState("Expense");
   const [records, setRecords] = useState([]);
   const [editing, setEditing] = useState(false);
+  const [category, setCategory] = useState("");
+
   const [openModal, setOpenModal] = useState(false);
   const [showDatePicker, setShowDatePicker] = useState(false);
   const [editValues, setEditValues] = useState({
@@ -46,12 +51,14 @@ export default function Records() {
   const { getBudget, deleteBudget, editBudget, loading } = useBudget();
   useFocusEffect(
     React.useCallback(() => {
-      const fetchRecords = async () => {
-        const data = await getBudget(user.uid);
-        setRecords(data);
-      };
-      fetchRecords();
-    }, [user.uid])
+      if (user?.uid) {
+        const fetchRecords = async () => {
+          const data = await getBudget(user.uid);
+          setRecords(data);
+        };
+        fetchRecords();
+      }
+    }, [user?.uid])
   );
   const filteredRecords = useMemo(() => {
     const filtered = records.filter((record) =>
@@ -134,6 +141,7 @@ export default function Records() {
   const handleEditPress = (values: any) => {
     if (editing && editValues.id !== "") {
       setEditing(false);
+
       setEditValues({
         id: "",
         description: "",
@@ -427,31 +435,53 @@ export default function Records() {
                 <Text className="text-3xl font-semibold mb-5 text-slate-200">
                   Choose your expense
                 </Text>
-                {expenseChoices.map((item, index) => (
-                  <Pressable
-                    className="border-b-1 border-slate-200 flex flex-row w-full items-center p-3"
-                    key={index}
-                    onPress={() => {
-                      setEditValues({ ...editValues, expenses: item });
-                      setOpenModal(false);
-                    }}
-                  >
-                    <Ionicons
-                      name={
-                        expenseIcons[index] as
-                          | "fast-food"
-                          | "car"
-                          | "medkit"
-                          | "tennisball"
-                          | "school"
-                          | "add-circle"
-                      }
-                      size={30}
-                      color="slategray"
-                    />
-                    <Text className="text-2xl text-slate-200 p-4">{item}</Text>
-                  </Pressable>
-                ))}
+                {selected === "Expense"
+                  ? expenseChoices.map((item, index) => (
+                      <Pressable
+                        className="border-b-1 border-slate-200 flex flex-row w-full items-center p-3"
+                        key={index}
+                        onPress={() => {
+                          setEditValues({ ...editValues, expenses: item });
+                          setOpenModal(false);
+                        }}
+                      >
+                        <Ionicons
+                          name={
+                            expenseIcons[index] as
+                              | "fast-food"
+                              | "car"
+                              | "medkit"
+                              | "tennisball"
+                              | "school"
+                              | "add-circle"
+                          }
+                          size={30}
+                          color="slategray"
+                        />
+                        <Text className="text-2xl text-slate-200 p-4">
+                          {item}
+                        </Text>
+                      </Pressable>
+                    ))
+                  : incomeChoices.map((item, index) => (
+                      <Pressable
+                        className="border-b-1 border-slate-200 flex flex-row w-full items-center p-3"
+                        key={index}
+                        onPress={() => {
+                          setEditValues({ ...editValues, expenses: item });
+                          setOpenModal(false);
+                        }}
+                      >
+                        <Ionicons
+                          name={incomeIcons[index] as "card" | "cash"}
+                          size={30}
+                          color="slategray"
+                        />
+                        <Text className="text-2xl text-slate-200 p-4">
+                          {item}
+                        </Text>
+                      </Pressable>
+                    ))}
               </ScrollView>
             </View>
           </Modal>
