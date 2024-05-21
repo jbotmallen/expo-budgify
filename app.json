@@ -2,10 +2,16 @@
   "expo": {
     "scheme": "acme",
     "userInterfaceStyle": "automatic",
-    "orientation": "default",
+    "orientation": "portrait",
     "web": {
       "output": "static",
       "bundler": "metro"
+    },
+    "icon": "./assets/icon.png",
+    "splash": {
+      "image": "./assets/splash.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#162230"
     },
     "plugins": [
       [
