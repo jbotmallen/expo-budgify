@@ -22,6 +22,17 @@
       ]
     ],
     "name": "budg-app",
-    "slug": "budg-app"
+    "slug": "budg-app",
+    "extra": {
+      "router": {
+        "origin": "https://n"
+      },
+      "eas": {
+        "projectId": "8c778a19-c334-4966-bbc6-27458f09c0e5"
+      }
+    },
+    "android": {
+      "package": "com.budgify.app"
+    }
   }
 }
