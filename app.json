@@ -22,7 +22,7 @@
       ]
     ],
     "name": "Budgify",
-    "slug": "Budgify",
+    "slug": "budg-app",
     "extra": {
       "router": {
         "origin": "https://n"
