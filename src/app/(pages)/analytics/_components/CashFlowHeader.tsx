@@ -42,16 +42,16 @@ const styles = StyleSheet.create({
   text: {
     display: "flex",
     fontWeight: "800",
-    fontSize: 16,
+    fontSize: 14,
     justifyContent: "center",
   },
   textRed: {
     color: "red",
-    fontSize: 22,
+    fontSize: 18,
   },
   textGreen: {
     color: "green",
-    fontSize: 22,
+    fontSize: 18,
   },
   activeContainer: {
     backgroundColor: "#2d274f",

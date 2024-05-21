@@ -7,7 +7,7 @@ const Page = () => {
   return (
     <>
       <Modal animationType="fade">
-        <View className="h-screen w-screen bg-gray-800 flex flex-col items-center pt-5 gap-10">
+        <View className="bg-gray-800 flex flex-1 flex-col items-center pt-5 gap-10">
           <Image
             source={{
               uri: "https://png.pngtree.com/background/20220729/original/pngtree-group-of-people-looking-for-information-on-interactive-panel-3d-isometric-picture-image_1867481.jpg",

@@ -159,7 +159,7 @@ export default function Analytics() {
       ) : (
         <>
           <DataViz data={sumCategory} />
-          <ScrollView contentContainerStyle={styles.scrollViewContent}>
+          <ScrollView className="max-h-[60%]" contentContainerStyle={styles.scrollViewContent}>
             {sumCategory.map((choice, index) => (
               <ExpensesCard
                 key={index}

@@ -196,10 +196,10 @@ export default function Records() {
     <View className="bg-[#051728] h-screen w-screen px-5 flex flex-col gap-5">
       <View className="w-full h-[8%] flex flex-row items-end justify-start gap-2 ">
         <Ionicons name="book" size={30} color="slategray" className="mr-2" />
-        <Text className="text-4xl text-slate-300 font-medium tracking-widest">
+        <Text className="text-3xl sm:text-4xl text-slate-300 font-medium tracking-widest">
           Your
         </Text>
-        <Text className="text-4xl text-slate-300 font-black tracking-widest">
+        <Text className="text-3xl sm:text-4xl text-slate-300 font-black tracking-widest">
           records
         </Text>
       </View>
@@ -307,7 +307,7 @@ export default function Records() {
                           onChangeText={(text) =>
                             setEditValues({ ...editValues, description: text })
                           }
-                          className="text-3xl text-slate-200 font-bold placeholder:text-slate-500 border-b-2 border-slate-400 w-5/6"
+                          className="text-2xl sm:text-3xl text-slate-200 font-bold placeholder:text-slate-500 border-b-2 border-slate-400 w-5/6"
                         />
                         <Pressable
                           onPress={() => setShowDatePicker(true)}
@@ -333,7 +333,7 @@ export default function Records() {
                       </View>
                     ) : (
                       <>
-                        <Text className="text-3xl text-slate-400 font-bold">
+                        <Text className="text-2xl sm:text-3xl text-slate-400 font-bold">
                           {record.description}
                         </Text>
                         <Text className="text-lg text-slate-400 font-semibold mb-4">
@@ -346,7 +346,7 @@ export default function Records() {
                     )}
                   </View>
                   <View className="w-1/4 h-full flex flex-col items-end justify-around">
-                    <View className="w-full flex flex-row items-center justify-end gap-3">
+                    <View className="w-full flex flex-row items-center justify-end gap-1">
                       {editing && editValues.id === record.id ? (
                         <>
                           <Pressable onPress={() => handleEditSubmit()}>
@@ -398,8 +398,7 @@ export default function Records() {
                             ? "text-green-500"
                             : "text-red-400"
                         }`}
-                      >
-                        {record.category === "Income" ? "+ " : "- "}₱
+                      >₱
                         {numberWithCommas(Number(record.value).toFixed(0))}
                       </Text>
                     )}

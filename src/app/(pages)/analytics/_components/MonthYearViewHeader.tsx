@@ -22,7 +22,7 @@ export default function MonthYearView({ onMonthYearChange }) {
   };
 
   return (
-    <View className="w-full py-5 flex-row justify-between px-5 bg-">
+    <View className="h-fit w-full py-3 flex-row justify-between px-5">
       <Entypo
         name="chevron-left"
         size={24}

@@ -66,7 +66,7 @@ const ExpensesCard = ({ data, category }) => {
         </View>
 
         <View className="flex items-center justify-center">
-          <Text className="text-blue-200 text-xl">
+          <Text className="text-blue-200 text-lg sm:text-xl">
             {data.percentage.toFixed(2)}%
           </Text>
         </View>
@@ -103,7 +103,7 @@ const styles = StyleSheet.create({
     height: 4,
   },
   label: {
-    fontSize: 20,
+    fontSize: 18,
     color: "white",
   },
 });

@@ -22,11 +22,11 @@ export default function Card({ title, data }) {
       <View
         className={`w-full ${
           title === "SAVINGS" ? "bg-[#75d8b2]" : "bg-[#d87c75]"
-        } rounded-xl py-12 px-5 flex flex-row items-center justify-between`}
+        } rounded-xl py-8 px-5 flex flex-row items-center justify-between`}
       >
         <View className="flex flex-row items-center justify-start">
           {value > 0 ? (
-            <Text className="text-5xl tracking-wide font-normal">
+            <Text className="text-4xl tracking-wide font-normal">
               ₱{" "}
               {Number(value.toFixed(2)).toLocaleString("en-US", {
                 minimumFractionDigits: 2,
@@ -37,11 +37,6 @@ export default function Card({ title, data }) {
             <Text className="text-4xl tracking-widest font-normal">
               No {title.toLowerCase()} for {currentMonth}
             </Text>
-          )}
-          {title === "SAVINGS" ? (
-            <Text className="text-2xl tracking-widest ml-3">SAVED</Text>
-          ) : (
-            <Text className="text-2xl tracking-widest ml-3">SPENT</Text>
           )}
         </View>
         {title === "SAVINGS" ? (

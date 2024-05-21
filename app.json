@@ -21,8 +21,8 @@
         }
       ]
     ],
-    "name": "budg-app",
-    "slug": "budg-app",
+    "name": "Budgify",
+    "slug": "Budgify",
     "extra": {
       "router": {
         "origin": "https://n"
@@ -32,7 +32,8 @@
       }
     },
     "android": {
-      "package": "com.budgify.app"
+      "package": "com.budgify.app",
+      "softwareKeyboardLayoutMode": "pan"
     }
   }
 }
