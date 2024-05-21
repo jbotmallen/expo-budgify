@@ -9,9 +9,10 @@ import {
   TextInput,
   View,
 } from "react-native";
-import { router } from "expo-router";
+import { router, usePathname } from "expo-router";
 import { useAuth } from "@/utils/context/AuthContext";
 import { Ionicons } from "@expo/vector-icons";
+import ErrorBoundary from "@/app/error";
 
 const Register = () => {
   const [secureText, setSecureText] = useState(true);
@@ -22,6 +23,7 @@ const Register = () => {
   });
 
   const { register } = useAuth();
+  const path = usePathname();
 
   const handleRegister = async () => {
     if (!user.email || !user.password)
@@ -32,7 +34,8 @@ const Register = () => {
       setLoading(false);
       if (!res.success) return Alert.alert(res.msg);
     } catch (error) {
-      console.log(error);
+      setLoading(false);
+      router.push(`/error/?path=${path}`);
     }
   };
   return (

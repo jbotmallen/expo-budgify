@@ -1,5 +1,5 @@
 import { useAuth } from "@/utils/context/AuthContext";
-import { router } from "expo-router";
+import { router, usePathname } from "expo-router";
 import React, { useState } from "react";
 import {
   Image,
@@ -24,6 +24,7 @@ const Login = () => {
   });
 
   const { login } = useAuth();
+  const path = usePathname();
 
   const handleLogin = async () => {
     if (!user.email || !user.password)
@@ -35,6 +36,8 @@ const Login = () => {
       if (!res.success) return Alert.alert(res.msg);
     } catch (error) {
       console.log(error);
+      setLoading(false);
+      router.push(`/error/?path=${path}`);
     }
   };
 

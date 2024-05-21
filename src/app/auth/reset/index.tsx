@@ -9,14 +9,16 @@ import {
   ActivityIndicator,
 } from "react-native";
 import React, { useState } from "react";
-import { router } from "expo-router";
+import { router, usePathname } from "expo-router";
 import { Ionicons } from "@expo/vector-icons";
 import { useAuth } from "@/utils/context/AuthContext";
 
 export default function Reset() {
   const [email, setEmail] = useState("");
   const [loading, setLoading] = useState(false);
+
   const { reset } = useAuth();
+  const path = usePathname();
 
   const handleSubmit = async () => {
     if (!email) return Alert.alert("Error", "Email is required");
@@ -38,7 +40,8 @@ export default function Reset() {
         Alert.alert("Error", res.msg);
       }
     } catch (error) {
-      console.log(error);
+      setLoading(false);
+      router.push(`/error/?path=${path}`);
     }
     setLoading(false);
   };

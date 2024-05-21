@@ -1,11 +1,9 @@
 import React from "react";
-import { Dimensions, Image, Modal, Pressable, Text, View } from "react-native";
+import { Image, Modal, Pressable, Text, View } from "react-native";
 import { router } from "expo-router";
 import { Ionicons } from "@expo/vector-icons";
 
 const Page = () => {
-  const dimensions = Dimensions.get("window");
-
   return (
     <>
       <Modal animationType="fade">

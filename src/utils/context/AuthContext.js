@@ -40,6 +40,7 @@ export const AuthProvider = ({ children }) => {
       return { success: true, data: response?.user };
     } catch (error) {
       let msg = errorChecks(error.message);
+      console.log(error.message);
       return { success: false, msg };
     }
   };

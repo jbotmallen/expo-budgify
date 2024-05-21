@@ -34,7 +34,6 @@ export default function Records() {
   const [selected, setSelected] = useState("Expense");
   const [records, setRecords] = useState([]);
   const [editing, setEditing] = useState(false);
-  const [category, setCategory] = useState("");
 
   const [openModal, setOpenModal] = useState(false);
   const [showDatePicker, setShowDatePicker] = useState(false);

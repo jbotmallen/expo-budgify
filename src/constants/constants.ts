@@ -32,7 +32,7 @@ export const routes = [
    'Income', 'Expense'
  ]
  export const recordTags = [
-    'Expense', 'Income', 'Transfer'
+    'Expense', 'Income'
  ]
  
  export const expenseIcons = [

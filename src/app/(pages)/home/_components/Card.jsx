@@ -1,6 +1,8 @@
 import { View, Text } from "react-native";
 import React from "react";
 import { currentMonth } from "@/constants/functions";
+import { FontAwesome6 } from "@expo/vector-icons";
+import { MaterialIcons } from "@expo/vector-icons";
 
 export default function Card({ title, data }) {
   const value = data?.reduce(
@@ -17,19 +19,35 @@ export default function Card({ title, data }) {
           {currentMonth.toUpperCase()}
         </Text>
       </Text>
-      <View className="w-full h-28 bg-[#7590d8] rounded-xl py-8 px-5 flex flex-row items-center justify-start">
-        {value > 0 ? (
-          <Text className="text-5xl tracking-widest font-normal">
-            ₱{" "}
-            {Number(value.toFixed(2)).toLocaleString("en-US", {
-              minimumFractionDigits: 2,
-              maximumFractionDigits: 2,
-            })}
-          </Text>
+      <View
+        className={`w-full ${
+          title === "SAVINGS" ? "bg-[#75d8b2]" : "bg-[#d87c75]"
+        } rounded-xl py-12 px-5 flex flex-row items-center justify-between`}
+      >
+        <View className="flex flex-row items-center justify-start">
+          {value > 0 ? (
+            <Text className="text-5xl tracking-wide font-normal">
+              ₱{" "}
+              {Number(value.toFixed(2)).toLocaleString("en-US", {
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 2,
+              })}
+            </Text>
+          ) : (
+            <Text className="text-4xl tracking-widest font-normal">
+              No {title.toLowerCase()} for {currentMonth}
+            </Text>
+          )}
+          {title === "SAVINGS" ? (
+            <Text className="text-2xl tracking-widest ml-3">SAVED</Text>
+          ) : (
+            <Text className="text-2xl tracking-widest ml-3">SPENT</Text>
+          )}
+        </View>
+        {title === "SAVINGS" ? (
+          <FontAwesome6 name="piggy-bank" size={40} color="black" />
         ) : (
-          <Text className="text-4xl tracking-widest font-normal">
-            No {title.toLowerCase()} for {currentMonth}
-          </Text>
+          <MaterialIcons name="money-off" size={45} color="black" />
         )}
       </View>
     </View>

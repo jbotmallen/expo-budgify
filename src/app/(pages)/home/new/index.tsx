@@ -147,7 +147,10 @@ export default function Add() {
                     <Ionicons name="caret-down" size={24} color="gray" />
                   </Pressable>
                   <Pressable
-                    onPress={() => setVisible("expense")}
+                    onPress={() => {
+                      if (formValues.category === "") return Alert.alert("Attention!", "Please select a category"); 
+                      setVisible("expense")
+                    }}
                     className="w-1/2 h-4/5 border-2 border-slate-400 flex flex-row items-center justify-between rounded-2xl px-5 flex-1"
                   >
                     <Text

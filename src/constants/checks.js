@@ -3,6 +3,8 @@ export const errorChecks = (message) => {
   
   if (msg.includes("auth/user-not-found")) {
     msg = "User not found";
+  } else if(msg.includes("auth/too-many-requests")) {
+    msg = "Too many requests. Please try again later";
   } else if (msg.includes("auth/invalid-credential")) {
     msg = "Incorrect password or email address";
   } else if (msg.includes("auth/email-already-in-use")) {

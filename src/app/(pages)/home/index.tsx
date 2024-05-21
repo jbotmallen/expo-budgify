@@ -1,5 +1,5 @@
 import { View, Text, ActivityIndicator } from "react-native";
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useMemo, useState } from "react";
 import { useAuth } from "@/utils/context/AuthContext";
 import { AntDesign } from "@expo/vector-icons";
 import Card from "./_components/Card";
@@ -54,7 +54,7 @@ export default function Home() {
     );
 
   return (
-    <View className="py-14 px-6 h-4/5 bg-[#051728] relative flex-1 gap-12">
+    <View className="py-14 px-10 h-4/5 bg-[#051728] relative flex-1 gap-12">
       {loading ? (
         <View className="flex-1 justify-center items-center">
           <ActivityIndicator size="large" color="slategray" />
