@@ -1,4 +1,4 @@
-import { View, Text, ActivityIndicator } from "react-native";
+import { View, Text, ActivityIndicator, Image } from "react-native";
 import React, { useMemo, useState } from "react";
 import { useAuth } from "@/utils/context/AuthContext";
 import { AntDesign } from "@expo/vector-icons";
@@ -66,8 +66,6 @@ export default function Home() {
       ) : (
         <>
           <View className="flex flex-row align-middle items-center gap-2">
-            {/* <AntDesign name="user" size={60} color="#A0AEC0" /> */}
-
             <Text className="text-4xl text-[#7590d8] tracking-widest text-left">
               Hello,{" "}
               <Text className="text-slate-200 font-black">
@@ -85,6 +83,7 @@ export default function Home() {
       <Link href="/home/new" className="absolute bottom-10 right-8">
         <AntDesign name="pluscircle" size={60} color="#E2E8F0" />
       </Link>
+      <Image source={require("../../../../assets/icon.png")} className="absolute -z-10 opacity-15 -left-10"/>
     </View>
   );
 }

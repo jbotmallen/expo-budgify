@@ -45,11 +45,10 @@ const Login = () => {
     <>
       <Modal animationType="slide" transparent={true}>
         <KeyboardAvoidingView
-          className="fixed"
           style={{ flex: 1 }}
-          behavior={Platform.OS === "ios" ? "padding" : "height"}
+          behavior={Platform.OS === "ios" ? "padding" : undefined}
         >
-          <View className="min-h-full w-full flex items-center justify-center">
+          <View className="min-h-full w-full flex flex-1 items-center justify-end">
             <Pressable
               onPress={() => router.replace("/auth")}
               className="absolute top-5 right-5 z-10"
@@ -80,6 +79,7 @@ const Login = () => {
                   </Text>
                 </View>
                 <TextInput
+                  keyboardType="email-address"
                   onChangeText={(text) =>
                     setUser((prev) => ({ ...prev, email: text }))
                   }
@@ -99,6 +99,7 @@ const Login = () => {
                 </View>
                 <View className="bg-gray-700 rounded-lg flex flex-row justify-between ">
                   <TextInput
+                    keyboardType="default"
                     onChangeText={(text) =>
                       setUser((prev) => ({ ...prev, password: text }))
                     }

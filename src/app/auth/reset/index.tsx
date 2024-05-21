@@ -7,6 +7,8 @@ import {
   TextInput,
   Alert,
   ActivityIndicator,
+  KeyboardAvoidingView,
+  Platform,
 } from "react-native";
 import React, { useState } from "react";
 import { router, usePathname } from "expo-router";
@@ -48,53 +50,59 @@ export default function Reset() {
 
   return (
     <Modal animationType="slide" transparent={true}>
-      <View className="h-full w-full relative flex items-center justify-center">
-        <Pressable
-          onPress={() => router.replace("/auth")}
-          className="absolute top-5 right-5 z-10"
-        >
-          <Text className=" bg-gray-200 text-3xl rounded-full p-3.5 w-16 h-16 text-center">
-            ×
-          </Text>
-        </Pressable>
-      </View>
-      <Image
-        source={require("../../../../public/reset-bg.png")}
-        className="w-full h-full absolute -z-10"
-      />
-      <View className="absolute top-[20%] border-2 border-white left-[3.5%] w-11/12 h-2/3 flex flex-col align-middle items-center rounded-xl bg-gray-900">
+      <KeyboardAvoidingView
+        style={{ flex: 1 }}
+        behavior={Platform.OS === "ios" ? "padding" : undefined}
+      >
+        <View className="h-full w-full relative flex items-center justify-center">
+          <Pressable
+            onPress={() => router.replace("/auth")}
+            className="absolute top-5 right-5 z-10"
+          >
+            <Text className=" bg-gray-200 text-3xl rounded-full p-3.5 w-16 h-16 text-center">
+              ×
+            </Text>
+          </Pressable>
+        </View>
         <Image
-          source={require("../../../../public/img/reset-pic.png")}
-          className="w-full h-2/5 rounded-t-xl"
+          source={require("../../../../public/reset-bg.png")}
+          className="w-full h-full absolute -z-10"
         />
-        <View className="h-2/5 w-full flex flex-col justify-center items-center gap-5">
-          <Text className="text-4xl font-bold text-gray-200 mt-12">
-            Reset Password
-          </Text>
-          <View className="w-5/6 h-4/5 flex flex-col items-center justify-center">
-            <View className="flex flex-row items-center justify-start w-full mb-3">
-              <Ionicons name="mail" size={25} color="slategray" />
-              <Text className="text-xl font-semibold text-slate-300 ms-2">
-                Email
-              </Text>
+        <View className="absolute top-[20%] border-2 border-white left-[3.5%] w-11/12 h-2/3 flex flex-col align-middle items-center rounded-xl bg-gray-900">
+          <Image
+            source={require("../../../../public/img/reset-pic.png")}
+            className="w-full h-2/5 rounded-t-xl"
+          />
+          <View className="h-2/5 w-full flex flex-col justify-center items-center gap-5">
+            <Text className="text-4xl font-bold text-gray-200 mt-12">
+              Reset Password
+            </Text>
+            <View className="w-5/6 h-4/5 flex flex-col items-center justify-center">
+              <View className="flex flex-row items-center justify-start w-full mb-3">
+                <Ionicons name="mail" size={25} color="slategray" />
+                <Text className="text-xl font-semibold text-slate-300 ms-2">
+                  Email
+                </Text>
+              </View>
+              <TextInput
+                keyboardType="email-address"
+                onChangeText={(text) => setEmail(text)}
+                value={email}
+                placeholder="email@example.com"
+                className="w-full p-3 bg-gray-700 rounded-lg text-gray-300 text-lg placeholder:text-gray-500"
+              />
+              <Pressable
+                onPress={() => handleSubmit()}
+                className="bg-orange-400 w-full p-3 rounded-lg mt-5"
+              >
+                <Text className="text-gray-800 text-2xl font-semibold text-center">
+                  Send Instructions
+                </Text>
+              </Pressable>
             </View>
-            <TextInput
-              onChangeText={(text) => setEmail(text)}
-              value={email}
-              placeholder="email@example.com"
-              className="w-full p-3 bg-gray-700 rounded-lg text-gray-300 text-lg placeholder:text-gray-500"
-            />
-            <Pressable
-              onPress={() => handleSubmit()}
-              className="bg-orange-400 w-full p-3 rounded-lg mt-5"
-            >
-              <Text className="text-gray-800 text-2xl font-semibold text-center">
-                Send Instructions
-              </Text>
-            </Pressable>
           </View>
         </View>
-      </View>
+      </KeyboardAvoidingView>
       {loading ? (
         <View className="flex-row justify-center">
           <ActivityIndicator color="violet" size={32} />

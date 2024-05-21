@@ -26,7 +26,7 @@ export default function Card({ title, data }) {
       >
         <View className="flex flex-row items-center justify-start">
           {value > 0 ? (
-            <Text className="text-4xl tracking-wide font-normal">
+            <Text className="text-3xl sm:text-4xl tracking-widest font-normal">
               ₱{" "}
               {Number(value.toFixed(2)).toLocaleString("en-US", {
                 minimumFractionDigits: 2,
@@ -40,9 +40,9 @@ export default function Card({ title, data }) {
           )}
         </View>
         {title === "SAVINGS" ? (
-          <FontAwesome6 name="piggy-bank" size={40} color="black" />
+          <FontAwesome6 name="piggy-bank" size={35} color="black" />
         ) : (
-          <MaterialIcons name="money-off" size={45} color="black" />
+          <MaterialIcons name="money-off" size={40} color="black" />
         )}
       </View>
     </View>

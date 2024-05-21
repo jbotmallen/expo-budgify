@@ -5,15 +5,36 @@ import { SimpleLineIcons } from "@expo/vector-icons";
 import { router } from "expo-router";
 
 export default function Header() {
-  const { logout } = useAuth();
+  const { user, logout } = useAuth();
 
   const handleLogout = async () => {
-    const res = await logout();
-    if (!res.success) {
-      return Alert.alert(res.msg);
-    } else {
-      router.replace("/auth/login"); // Redirect to Login screen
-    }
+    Alert.alert(
+      `Logout ${user.email.split("@")[0]}`,
+      "Are you sure you want to logout?",
+      [
+        {
+          text: "Yes",
+          onPress: async () => {
+            try {
+              const res = await logout();
+              if (!res.success) {
+                return Alert.alert(res.msg);
+              } else {
+                router.replace("/auth/login");
+              }
+            } catch (error) {
+              return Alert.alert(
+                "Error",
+                "An error occured while logging out."
+              );
+            }
+          },
+        },
+        {
+          text: "No",
+        },
+      ]
+    );
   };
 
   return (

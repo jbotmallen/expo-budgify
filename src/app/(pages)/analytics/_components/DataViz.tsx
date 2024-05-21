@@ -23,10 +23,10 @@ const DataViz = ({ data }) => {
   };
 
   return (
-    <View className="w-[95%] h-1/5 rounded-lg flex items-center justify-center p-3 mx-auto mb-5">
+    <View className="w-[95%] h-1/5 rounded-lg flex items-center justify-center p-3 mb-5">
       <PieChart
         data={chartData}
-        width={300}
+        width={350}
         height={150}
         chartConfig={chartConfig}
         accessor="amount"

@@ -43,7 +43,7 @@ export const routes = [
   "card", "cash"
  ]
  export const categoryIcons = [
-    'bag-add', 'cash', 'card'
+    'bag-add', 'bag-remove'
  ]
 
  export const expenseIconPair = expenseChoices.map((category, index) => ({

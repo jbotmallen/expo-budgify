@@ -26,7 +26,7 @@ import {
   convertTimeToDate,
   numberWithCommas,
 } from "../../../constants/functions";
-import { AntDesign, Ionicons } from "@expo/vector-icons";
+import { MaterialIcons, Ionicons } from "@expo/vector-icons";
 import { router } from "expo-router";
 import { useFocusEffect } from "@react-navigation/native";
 
@@ -253,6 +253,7 @@ export default function Records() {
           }}
         >
           <TextInput
+            keyboardType="default"
             placeholder="Search"
             style={{
               flex: 1,
@@ -271,7 +272,7 @@ export default function Records() {
         <ActivityIndicator size={100} color="white" />
       ) : (
         <>
-          <View className="w-full h-[5%] flex flex-row justify-end gap-2 px-1">
+          <View className="w-full h-[5%] flex flex-row justify-start gap-2 px-1">
             {recordTags.map((tag) => (
               <TagPressables
                 title={tag}
@@ -296,6 +297,7 @@ export default function Records() {
                     {editing && editValues.id === record.id ? (
                       <View className="flex flex-col justify-between items-start h-full gap-2 pb-5">
                         <TextInput
+                          keyboardType="default"
                           placeholder={record.description || "Description"}
                           multiline
                           numberOfLines={1}
@@ -393,11 +395,10 @@ export default function Records() {
                       />
                     ) : (
                       <Text
-                        className={`text-2xl font-semibold ${
-                          record.category === "Income"
+                        className={`text-2xl font-semibold ${record.category === "Income"
                             ? "text-green-500"
                             : "text-red-400"
-                        }`}
+                          }`}
                       >₱
                         {numberWithCommas(Number(record.value).toFixed(0))}
                       </Text>
@@ -435,51 +436,51 @@ export default function Records() {
                 </Text>
                 {selected === "Expense"
                   ? expenseChoices.map((item, index) => (
-                      <Pressable
-                        className="border-b-1 border-slate-200 flex flex-row w-full items-center p-3"
-                        key={index}
-                        onPress={() => {
-                          setEditValues({ ...editValues, expenses: item });
-                          setOpenModal(false);
-                        }}
-                      >
-                        <Ionicons
-                          name={
-                            expenseIcons[index] as
-                              | "fast-food"
-                              | "car"
-                              | "medkit"
-                              | "tennisball"
-                              | "school"
-                              | "add-circle"
-                          }
-                          size={30}
-                          color="slategray"
-                        />
-                        <Text className="text-2xl text-slate-200 p-4">
-                          {item}
-                        </Text>
-                      </Pressable>
-                    ))
+                    <Pressable
+                      className="border-b-1 border-slate-200 flex flex-row w-full items-center p-3"
+                      key={index}
+                      onPress={() => {
+                        setEditValues({ ...editValues, expenses: item });
+                        setOpenModal(false);
+                      }}
+                    >
+                      <Ionicons
+                        name={
+                          expenseIcons[index] as
+                          | "fast-food"
+                          | "car"
+                          | "medkit"
+                          | "tennisball"
+                          | "school"
+                          | "add-circle"
+                        }
+                        size={30}
+                        color="slategray"
+                      />
+                      <Text className="text-2xl text-slate-200 p-4">
+                        {item}
+                      </Text>
+                    </Pressable>
+                  ))
                   : incomeChoices.map((item, index) => (
-                      <Pressable
-                        className="border-b-1 border-slate-200 flex flex-row w-full items-center p-3"
-                        key={index}
-                        onPress={() => {
-                          setEditValues({ ...editValues, expenses: item });
-                          setOpenModal(false);
-                        }}
-                      >
-                        <Ionicons
-                          name={incomeIcons[index] as "card" | "cash"}
-                          size={30}
-                          color="slategray"
-                        />
-                        <Text className="text-2xl text-slate-200 p-4">
-                          {item}
-                        </Text>
-                      </Pressable>
-                    ))}
+                    <Pressable
+                      className="border-b-1 border-slate-200 flex flex-row w-full items-center p-3"
+                      key={index}
+                      onPress={() => {
+                        setEditValues({ ...editValues, expenses: item });
+                        setOpenModal(false);
+                      }}
+                    >
+                      <Ionicons
+                        name={incomeIcons[index] as "card" | "cash"}
+                        size={30}
+                        color="slategray"
+                      />
+                      <Text className="text-2xl text-slate-200 p-4">
+                        {item}
+                      </Text>
+                    </Pressable>
+                  ))}
               </ScrollView>
             </View>
           </Modal>
@@ -493,10 +494,10 @@ const TagPressables = ({ title, selected, setSelected }) => {
   return (
     <Pressable
       onPress={() => setSelected(title)}
-      className={`${
-        selected === title ? "bg-slate-300" : "bg-slate-500"
-      } h-full py-2 w-32 rounded-full flex flex-row justify-center items-center transition-all duration-300`}
+      className={`${selected === title ? "bg-slate-300 scale-100" : "bg-slate-500 scale-[0.8]"
+        } h-full w-1/2 py-2 rounded-xl flex flex-row justify-center items-center transition-all duration-500`}
     >
+      {selected === title && <MaterialIcons name={`${selected === title ? "money-off" : "attach-money"}`} size={24} color="black" />}
       <Text className="text-xl text-slate-900 font-semibold text-center">
         {title}
       </Text>

@@ -20,6 +20,7 @@ import {
   expenseIcons,
   incomeChoices,
   incomeIcons,
+  categoryIcons,
 } from "@/constants/constants";
 import { useAuth } from "@/utils/context/AuthContext";
 import { useBudget } from "@/utils/context/BudgetContext";
@@ -104,6 +105,8 @@ export default function Add() {
     }
   };
 
+  console.log(formValues.category, visible)
+
   return (
     <>
       <Modal animationType="slide" transparent={false}>
@@ -137,9 +140,8 @@ export default function Add() {
                     className="w-1/2 h-4/5 border-2 border-slate-400 flex flex-row items-center justify-between rounded-2xl px-5"
                   >
                     <Text
-                      className={`${
-                        formValues.category ? "text-2xl" : "text-2xl"
-                      } text-slate-400 font-semibold`}
+                      className={`${formValues.category ? "text-2xl" : "text-2xl"
+                        } text-slate-400 font-semibold`}
                     >
                       {/* FIRST DROPDOWN */}
                       {formValues.category ? formValues.category : "category"}
@@ -148,15 +150,14 @@ export default function Add() {
                   </Pressable>
                   <Pressable
                     onPress={() => {
-                      if (formValues.category === "") return Alert.alert("Attention!", "Please select a category"); 
+                      if (formValues.category === "") return Alert.alert("Attention!", "Please select a category");
                       setVisible("expense")
                     }}
                     className="w-1/2 h-4/5 border-2 border-slate-400 flex flex-row items-center justify-between rounded-2xl px-5 flex-1"
                   >
                     <Text
-                      className={`${
-                        formValues.expenses ? "text-2xl" : "text-2xl"
-                      } text-slate-400 font-semibold`}
+                      className={`${formValues.expenses ? "text-2xl" : "text-2xl"
+                        } text-slate-400 font-semibold`}
                     >
                       {/* SECOND DROPDOWN */}
                       {formValues.expenses ? formValues.expenses : "allocation"}
@@ -169,6 +170,7 @@ export default function Add() {
                     Description
                   </Text>
                   <TextInput
+                    keyboardType="default"
                     editable
                     multiline
                     numberOfLines={2}
@@ -238,13 +240,15 @@ export default function Add() {
       </Modal>
       <Modal animationType="slide" transparent={false} visible={visible !== ""}>
         <View className="h-screen w-screen bg-slate-800 relative">
-          <Ionicons
-            name="close"
-            size={60}
-            color="gray"
-            onPress={() => setVisible("")}
-            className="absolute top-12 right-8 z-10"
-          />
+          <Pressable
+            onPress={() => setVisible("")} className="bg-slate-400 py-5 px-8 rounded-full absolute bottom-16 right-8 z-10 flex flex-row items-center gap-5">
+            <Ionicons
+              name="close"
+              size={32}
+              color="black"
+            />
+            <Text className="text-slate-800 text-2xl font-semibold">Cancel</Text>
+          </Pressable>
           <ScrollView className="max-h-5/6 h-5/6 w-full rounded-xl relative py-16 px-10">
             <Text className="text-4xl font-semibold mb-5 text-slate-200">
               Choose your {visible}
@@ -266,16 +270,13 @@ export default function Add() {
                 >
                   <Ionicons
                     name={
-                      formValues.category === "Expense"
-                        ? (expenseIcons[index] as
-                            | "fast-food"
-                            | "car"
-                            | "medkit"
-                            | "tennisball"
-                            | "school"
-                            | "add-circle")
-                        : (incomeIcons[index] as "card" | "cash")
+                      visible === "category"
+                        ? categoryIcons[index] as any
+                        : formValues.category === "Expense"
+                          ? expenseIcons[index] as any
+                          : incomeIcons[index] as any
                     }
+
                     size={30}
                     color="slategray"
                   />
@@ -291,7 +292,6 @@ export default function Add() {
           mode="date"
           display="default"
           onChange={handleDateChange}
-          maximumDate={new Date()}
         />
       )}
     </>

@@ -11,7 +11,7 @@ export default function CashFlowHeader({ category, data, onPress, isActive }) {
     <Pressable style={containerStyle} onPress={onPress}>
       <Text
         style={styles.text}
-        className="text-slate-400 font-boldw-full text-center"
+        className="text-slate-400 font-bold w-full text-center"
       >
         {category}
       </Text>
