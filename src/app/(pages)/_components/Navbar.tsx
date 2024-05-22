@@ -9,7 +9,7 @@ export default function Navbar() {
 
   return (
     <View className="bg-[#13304B] h-[9%] w-screen rounded-t-2xl ">
-      <View className="h-full w-full flex flex-row justify-evenly items-center px-8">
+      <View className="h-full w-full flex flex-row justify-around items-center px-8">
         {routes.map((route, index) => (
           <CustomLinks
             key={index}

@@ -34,6 +34,9 @@
     "android": {
       "package": "com.budgify.app",
       "softwareKeyboardLayoutMode": "pan"
+    },
+    "ios": {
+      "bundleIdentifier": "com.budgify.app"
     }
   }
 }

@@ -1,6 +1,5 @@
 import { StyleSheet, Text, View, Dimensions } from "react-native";
-import { expenseIconPair } from "@/constants/constants";
-import { incomeIconPair } from "@/constants/constants";
+import { incomeIconPair, expenseIconPair, categoryIconPair } from "@/constants/constants";
 
 import { Ionicons } from "@expo/vector-icons";
 import React from "react";
@@ -12,7 +11,10 @@ const ExpensesCard = ({ data, category }) => {
     iconPair = expenseIconPair.find((pair) => pair.category === data.name);
   } else if (category.toLowerCase() === "income") {
     iconPair = incomeIconPair.find((pair) => pair.category === data.name);
+  } else {
+    iconPair = categoryIconPair.find((pair) => pair.category === data.name);
   }
+
   const iconName = iconPair ? iconPair.icon : "add-circle";
 
   const remainingPercentage = 100 - data.percentage;
@@ -22,14 +24,14 @@ const ExpensesCard = ({ data, category }) => {
       <Ionicons
         name={
           iconName as
-            | "fast-food"
-            | "car"
-            | "medkit"
-            | "tennisball"
-            | "school"
-            | "cash"
-            | "card"
-            | "add-circle"
+          | "fast-food"
+          | "car"
+          | "medkit"
+          | "tennisball"
+          | "school"
+          | "cash"
+          | "card"
+          | "add-circle"
         }
         size={40}
         color="#f3f3f3"

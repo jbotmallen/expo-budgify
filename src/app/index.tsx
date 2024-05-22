@@ -3,15 +3,12 @@ import { ActivityIndicator, Image, View } from "react-native";
 
 export default function Page() {
   return (
-    <View className="h-screen w-screen flex flex-col items-center justify-evenly bg-slate-800 text-gray-200 gap-5">
-      <View className="h-4/5 w-full">
+    <View className="flex flex-1 items-center justify-center bg-slate-800 text-gray-200">
         <Image
           source={require("../../public/logo.png")}
-          className=" -mb-32 p-0"
-          style={{ height: 400, width: 400 }}
+          className="w-full h-1/4"
         />
-        <ActivityIndicator size={80} color="white" className="-mt-12" />
-      </View>
+        <ActivityIndicator size={150} color="slategray" />
     </View>
   );
 }

@@ -41,6 +41,7 @@ export default function Add() {
   const [showDatePicker, setShowDatePicker] = useState(false);
 
   const handlePress = (item: string) => {
+    if(formValues.value.length > 9) return Alert.alert("Attention!", "Value exceeds maximum length.");
     if (item !== ".") {
       setFormValues((prevValues) => ({
         ...prevValues,
@@ -79,7 +80,7 @@ export default function Add() {
       formValues.expenses === "" ||
       formValues.category === ""
     ) {
-      return Alert.alert("Error", "Please fill in all fields");
+      return Alert.alert("Important!", "Please fill in all fields");
     }
     setLoading(true);
 
@@ -105,15 +106,13 @@ export default function Add() {
     }
   };
 
-  console.log(formValues.category, visible)
-
   return (
     <>
       <Modal animationType="slide" transparent={false}>
         <View className="bg-[#051728] h-screen w-screen px-5 flex flex-col justify-center gap-3 items-center">
           <View className="w-full h-[45%] flex flex-col justify-start items-center gap-">
             <View className="flex flex-row items-center w-full h-1/6 justify-between">
-              <Link href="/home">
+              <Link href="/home" disabled={loading}>
                 <View className="flex flex-row items-center gap-2 w-1/2">
                   <AntDesign name="close" size={24} color="gray" />
                   <Text className="text-3xl text-slate-400 font-medium">
@@ -121,7 +120,7 @@ export default function Add() {
                   </Text>
                 </View>
               </Link>
-              <Pressable onPress={handleSave}>
+              <Pressable onPress={handleSave} disabled={loading}>
                 <View className="flex flex-row items-center gap-2">
                   <AntDesign name="check" size={24} color="gray" />
                   <Text className="text-3xl text-slate-400 font-medium">
@@ -131,7 +130,10 @@ export default function Add() {
               </Pressable>
             </View>
             {loading ? (
-              <ActivityIndicator size="large" color="gray" />
+              <View className="absolute top-1/3">
+                <Text className="text-3xl text-slate-300 my-10 tracking-widest">We are submitting your data...</Text>
+                <ActivityIndicator size={100} color="gray" />
+              </View>
             ) : (
               <>
                 <View className="w-full h-[15%] flex flex-row justify-between items-center gap-2 mb-3">
@@ -203,8 +205,8 @@ export default function Add() {
           {!loading && (
             <View className="w-full h-1/2 flex flex-col gap-3 mt-2">
               <View className="w-full h-1/4 border-slate-400 border-2 flex flex-row items-center justify-between rounded-2xl">
-                <Text className="text-right w-3/4 text-6xl font-semibold text-slate-300 placeholder:text-slate-400 flex">
-                  {formValues.value
+                <Text className="text-right w-3/4 text-6xl font-semibold text-slate-300 placeholder:text-slate-400">
+                 ₱ {formValues.value
                     ? Number(formValues.value).toLocaleString()
                     : "0"}
                 </Text>
@@ -254,7 +256,7 @@ export default function Add() {
               Choose your {visible}
             </Text>
             {(visible === "expense" ? getChoices().choices : categoryChoices)
-              // DEOPDOWN CHOICES IE EXPENSE INCOME
+              // DROPDOWN CHOICES IE EXPENSE INCOME
               .map((item, index) => (
                 <Pressable
                   className="border-b-2 border-slate-200 flex flex-row w-full items-center p-3"

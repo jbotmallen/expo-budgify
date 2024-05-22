@@ -13,6 +13,7 @@ import React, { useEffect, useMemo, useState } from "react";
 import {
   expenseChoices,
   expenseIcons,
+  filters,
   incomeChoices,
   incomeIcons,
   recordTags,
@@ -44,7 +45,7 @@ export default function Records() {
     expenses: "",
     value: "",
   });
-  const [sortBy, setSortBy] = useState("");
+  const [sortBy, setSortBy] = useState("AlphabeticalAtoZ");
   const [searchTerm, setSearchTerm] = useState("");
   const { user } = useAuth();
   const { getBudget, deleteBudget, editBudget, loading } = useBudget();
@@ -59,6 +60,7 @@ export default function Records() {
       }
     }, [user?.uid])
   );
+
   const filteredRecords = useMemo(() => {
     const filtered = records.filter((record) =>
       selected.toLowerCase().includes(record.category.toLowerCase())
@@ -90,14 +92,14 @@ export default function Records() {
       sorted.sort((a, b) => b.value - a.value);
     } else if (sortBy === "DateAsc") {
       sorted.sort((a, b) => {
-        const dateA = new Date(a.date);
-        const dateB = new Date(b.date);
+        const dateA = convertTimeToDate(a.date);
+        const dateB = convertTimeToDate(b.date);
         return dateA.getTime() - dateB.getTime();
       });
     } else if (sortBy === "DateDesc") {
       sorted.sort((a, b) => {
-        const dateA = new Date(a.date);
-        const dateB = new Date(b.date);
+        const dateA = convertTimeToDate(a.date);
+        const dateB = convertTimeToDate(b.date);
         return dateB.getTime() - dateA.getTime();
       });
     }
@@ -219,27 +221,14 @@ export default function Records() {
           dropdownIconColor="white"
           onValueChange={(itemValue) => setSortBy(itemValue)}
         >
-          <Picker.Item
-            label="Alphabetical (Ascending)"
-            value="AlphabeticalAtoZ"
-            style={{ fontSize: 20 }}
-          />
-          <Picker.Item
-            label="Alphabetical (Descending)"
-            value="AlphabeticalZtoA"
-            style={{ fontSize: 20 }}
-          />
-
-          <Picker.Item
-            label="Amount (Ascending)"
-            value="AmountAsc"
-            style={{ fontSize: 20 }}
-          />
-          <Picker.Item
-            label={`Amount (Descending)`}
-            value="AmountDesc"
-            style={{ fontSize: 20 }}
-          />
+          {filters.map((filter) => (
+            <Picker.Item
+              label={filter.label}
+              value={filter.value}
+              key={filter.value}
+              style={{ fontSize: 20 }}
+            />
+          ))}
         </Picker>
         <View
           style={{
@@ -497,7 +486,7 @@ const TagPressables = ({ title, selected, setSelected }) => {
       className={`${selected === title ? "bg-slate-300 scale-100" : "bg-slate-500 scale-[0.8]"
         } h-full w-1/2 py-2 rounded-xl flex flex-row justify-center items-center transition-all duration-500`}
     >
-      {selected === title && <MaterialIcons name={`${selected === title ? "money-off" : "attach-money"}`} size={24} color="black" />}
+      {<MaterialIcons name={`${title === "Expense" ? "money-off" : "attach-money"}`} size={24} color="black" />}
       <Text className="text-xl text-slate-900 font-semibold text-center">
         {title}
       </Text>

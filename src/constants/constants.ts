@@ -25,7 +25,7 @@ export const routes = [
  ]
 
  export const incomeChoices = [
-  "Salary", "Allowance"
+  "Salary", "Allowance", "Others"
  ]
 
  export const categoryChoices = [
@@ -40,7 +40,7 @@ export const routes = [
  ]
 
  export const incomeIcons = [
-  "card", "cash"
+  "card", "cash", "add-circle"
  ]
  export const categoryIcons = [
     'bag-add', 'bag-remove'
@@ -56,6 +56,38 @@ export const incomeIconPair = incomeChoices.map((category, index) => ({
   icon: incomeIcons[index]
 }));
 
+export const categoryIconPair = categoryChoices.map((category, index) => ({
+  category: category,
+  icon: categoryIcons[index]
+}));
+
 export const bgColors = [
   "red", "blue", "yellow", "green", "violet", "orange", "#66991A", "#FF99E6", "#CCFF1A", "#FF1A66", "#E6331A", "#33FFCC", "#66994D", "#B366CC", "#4D8000", "#B33300", "#CC80CC", "#66664D", "#991AFF", "#E666FF", "#4DB3FF", "#1AB399", "#E666B3", "#33991A", "#CC9999", "#B3B31A", "#00E680", "#4D8066", "#809980", "#E6FF80", "#1AFF33", "#999933", "#FF3380", "#CCCC00", "#66E64D", "#4D80CC", "#9900B3", "#E64D66", "#4DB380", "#FF4D4D", "#99E6E6", "#6666FF"
 ];
+
+export const filters = [
+  {
+    label: "A to Z (Ascending)",
+    value: "AlphabeticalAtoZ"
+  },
+  {
+    label: "Z to A (Descending)",
+    value: "AlphabeticalZtoA"
+  },
+  {
+    label: "Amount (Ascending)",
+    value: "AmountAsc"
+  },
+  {
+    label: "Amount (Descending)",
+    value: "AmountDesc"
+  },
+  {
+    label: "Date (Ascending)",
+    value: "DateAsc"
+  },
+  {
+    label: "Date (Descending)",
+    value: "DateDesc"
+  }
+]
