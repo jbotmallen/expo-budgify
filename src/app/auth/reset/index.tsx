@@ -10,13 +10,15 @@ import {
   KeyboardAvoidingView,
   Platform,
   ScrollView,
+  Keyboard,
 } from "react-native";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { router, usePathname } from "expo-router";
 import { Ionicons } from "@expo/vector-icons";
 import { useAuth } from "@/utils/context/AuthContext";
 
 export default function Reset() {
+  const [keyBoardVisible, setKeyBoardVisible] = useState(false);
   const [email, setEmail] = useState("");
   const [loading, setLoading] = useState(false);
 
@@ -49,13 +51,34 @@ export default function Reset() {
     setLoading(false);
   };
 
+  useEffect(() => {
+    const keyboardDidShowListener = Keyboard.addListener(
+      "keyboardDidShow",
+      () => {
+        setKeyBoardVisible(true);
+      }
+    );
+
+    const keyboardDidHideListener = Keyboard.addListener(
+      "keyboardDidHide",
+      () => {
+        setKeyBoardVisible(false);
+      }
+    );
+
+    return () => {
+      keyboardDidShowListener.remove();
+      keyboardDidHideListener.remove();
+    };
+  }, []);
+
   return (
-    <Modal animationType="slide" transparent={true}>
-      <KeyboardAvoidingView
-        style={{ flex: 1 }}
-        behavior={Platform.OS === "ios" ? "padding" : undefined}
-      >
-        <View className="h-screen w-screen flex flex-1 justify-center items-center">
+    <KeyboardAvoidingView
+      style={{ flex: 1 }}
+      behavior={Platform.OS === "ios" ? "padding" : undefined}
+    >
+      <Modal animationType="slide" transparent={true}>
+        <View className={`h-screen w-screen flex flex-1 ${keyBoardVisible ? "justify-start" : "justify-center"} items-center absolute`}>
           <Image
             source={require("../../../../public/reset-bg.png")}
             className="w-full h-full absolute -z-10"
@@ -65,7 +88,7 @@ export default function Reset() {
               source={require("../../../../public/img/reset-pic.png")}
               className="w-full h-2/5 rounded-t-xl"
             />
-            <ScrollView className="h-2/5 w-full flex flex-col justify-center items-center gap-5">
+            <View className="h-2/5 w-full flex flex-col justify-center items-center gap-3 mt-6">
               <Text className="text-4xl font-bold text-gray-200 mt-12">
                 Reset Password
               </Text>
@@ -83,48 +106,50 @@ export default function Reset() {
                   placeholder="email@example.com"
                   className="w-full p-3 bg-gray-700 rounded-lg text-gray-300 text-lg placeholder:text-gray-500"
                 />
-                <Pressable
-                  onPress={() => handleSubmit()}
-                  className="bg-orange-400 w-full p-3 rounded-lg mt-5"
-                >
-                  <Text className="text-gray-800 text-2xl font-semibold text-center">
-                    Send Instructions
-                  </Text>
-                </Pressable>
+                {loading ? (
+                  <View className="flex-row justify-center mt-5">
+                    <ActivityIndicator color="violet" size={32} />
+                  </View>
+                ) : (
+                  <Pressable
+                    onPress={() => handleSubmit()}
+                    className="bg-orange-400 w-full p-3 rounded-lg mt-5"
+                  >
+                    <Text className="text-gray-800 text-2xl font-semibold text-center">
+                      Send Instructions
+                    </Text>
+                  </Pressable>
+                )}
               </View>
-            </ScrollView>
+            </View>
           </View>
         </View>
-      </KeyboardAvoidingView>
-      {loading ? (
-        <View className="flex-row justify-center">
-          <ActivityIndicator color="violet" size={32} />
-        </View>
-      ) : (
-        <Text className="bg-gray-600 py-4 px-8 rounded-r-full text-gray-300 text-xl font-semibold absolute bottom-[15%]">
-          What to do?{" "}
-          <Text
-            onPress={() => router.replace("/auth/login")}
-            className="text-blue-400 text-lg"
-          >
-            {" "}
-            Login Now!
+        {!keyBoardVisible && (
+          <Text className="bg-gray-600 py-4 px-8 rounded-r-full text-gray-300 text-xl font-semibold absolute bottom-10">
+            What to do?{" "}
+            <Text
+              onPress={() => router.replace("/auth/login")}
+              className="text-blue-400 text-lg"
+            >
+              {" "}
+              Login Now!
+            </Text>
+            <Text
+              className="text-gray-400 text-lg"
+            >
+              {" "}
+              or
+            </Text>
+            <Text
+              onPress={() => router.replace("/auth/register")}
+              className="text-green-400 text-lg"
+            >
+              {" "}
+              Register Here!
+            </Text>
           </Text>
-          <Text
-            className="text-gray-400 text-lg"
-          >
-            {" "}
-            or
-          </Text>
-          <Text
-            onPress={() => router.replace("/auth/register")}
-            className="text-green-400 text-lg"
-          >
-            {" "}
-            Register Here!
-          </Text>
-        </Text>
-      )}
-    </Modal>
+        )}
+      </Modal>
+    </KeyboardAvoidingView>
   );
 }

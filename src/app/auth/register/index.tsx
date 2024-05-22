@@ -1,8 +1,9 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   ActivityIndicator,
   Alert,
   Image,
+  Keyboard,
   KeyboardAvoidingView,
   Modal,
   Platform,
@@ -15,9 +16,9 @@ import {
 import { router, usePathname } from "expo-router";
 import { useAuth } from "@/utils/context/AuthContext";
 import { Ionicons } from "@expo/vector-icons";
-import ErrorBoundary from "@/app/error";
 
 const Register = () => {
+  const [keyBoardVisible, setKeyBoardVisible] = useState(false);
   const [secureText, setSecureText] = useState(true);
   const [loading, setLoading] = useState(false);
   const [user, setUser] = useState({
@@ -41,25 +42,47 @@ const Register = () => {
       router.push(`/error/?path=${path}`);
     }
   };
+
+  useEffect(() => {
+    const keyboardDidShowListener = Keyboard.addListener(
+      "keyboardDidShow",
+      () => {
+        setKeyBoardVisible(true);
+      }
+    );
+
+    const keyboardDidHideListener = Keyboard.addListener(
+      "keyboardDidHide",
+      () => {
+        setKeyBoardVisible(false);
+      }
+    );
+
+    return () => {
+      keyboardDidShowListener.remove();
+      keyboardDidHideListener.remove();
+    };
+  }, []);
+
   return (
     <>
-      <Modal animationType="slide" transparent={true}>
-        <KeyboardAvoidingView
-          style={{ flex: 1 }}
-          behavior={Platform.OS === "ios" ? "padding" : undefined}
-        >
-          <View className="h-screen w-screen flex flex-1 justify-center items-center">
+      <KeyboardAvoidingView
+        style={{ flex: 1 }}
+        behavior={Platform.OS === "ios" ? "padding" : undefined}
+      >
+        <Modal animationType="slide" transparent={true}>
+          <View className={`h-screen w-screen flex flex-1 ${keyBoardVisible ? "justify-start" : "justify-center"} items-center absolute`}>
             <Image
               source={require("../../../../public/register-bg.png")}
               className="w-full h-full absolute -z-10"
             />
-            <View className="border-2 border-white w-11/12 h-5/6 rounded-xl bg-gray-900">
+            <View className="border-2 border-white w-11/12 h-4/5 rounded-xl bg-gray-900">
               <Image
                 source={require("../../../../public/img/rg-pic.png")}
                 className="w-full h-1/3 rounded-t-xl"
               />
-              <ScrollView className="h-3/5 w-full flex flex-col justify-center items-center gap-7">
-                <Text className="tracking-widest text-4xl font-bold text-gray-300">
+              <ScrollView className="h-3/5 w-full flex flex-col gap-7" contentContainerStyle={{ gap: 28, justifyContent: "center", alignItems: "center" }}>
+                <Text className="tracking-widest text-4xl font-bold text-gray-300 mt-8">
                   Create an Account
                 </Text>
                 <View className="w-5/6">
@@ -80,7 +103,7 @@ const Register = () => {
                   />
                 </View>
                 <View className="w-5/6">
-                  <View className="flex  justify-between align-middle">
+                  <View className="flex justify-between align-middle">
                     <View className="flex flex-row items-center w-full mb-3">
                       <Ionicons name="lock-closed" size={20} color="slategray" />
                       <Text className="text-md font-semibold text-slate-300 ms-2">
@@ -128,18 +151,20 @@ const Register = () => {
               </ScrollView>
             </View>
           </View>
-        </KeyboardAvoidingView>
-        <Text className="text-gray-300 text-lg font-semibold absolute bottom-20 text-center bg-gray-600 py-3 px-8 rounded-r-full">
-          Already have an account?{" "}
-          <Text
-            onPress={() => router.replace("/auth/login")}
-            className="text-blue-400 text-lg"
-          >
-            {" "}
-            Login Now!
-          </Text>
-        </Text>
-      </Modal>
+          {!keyBoardVisible && (
+            <Text className="text-gray-300 text-lg font-semibold absolute bottom-10 text-center bg-gray-600 py-3 px-8 rounded-r-full">
+              Already a user?{" "}
+              <Text
+                onPress={() => router.replace("/auth/login")}
+                className="text-blue-400 text-lg"
+              >
+                {" "}
+                Login Now!
+              </Text>
+            </Text>
+          )}
+        </Modal>
+      </KeyboardAvoidingView>
     </>
   );
 };

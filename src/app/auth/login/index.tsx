@@ -1,6 +1,6 @@
 import { useAuth } from "@/utils/context/AuthContext";
 import { router, usePathname } from "expo-router";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Image,
   Modal,
@@ -12,17 +12,39 @@ import {
   KeyboardAvoidingView,
   Alert,
   ActivityIndicator,
-  ScrollView,
+  Keyboard,
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 
 const Login = () => {
+  const [keyBoardVisible, setKeyBoardVisible] = useState(false);
   const [secureText, setSecureText] = useState(true);
   const [loading, setLoading] = useState(false);
   const [user, setUser] = useState({
     email: "",
     password: "",
   });
+
+  useEffect(() => {
+    const keyboardDidShowListener = Keyboard.addListener(
+      "keyboardDidShow",
+      () => {
+        setKeyBoardVisible(true);
+      }
+    );
+
+    const keyboardDidHideListener = Keyboard.addListener(
+      "keyboardDidHide",
+      () => {
+        setKeyBoardVisible(false);
+      }
+    );
+
+    return () => {
+      keyboardDidShowListener.remove();
+      keyboardDidHideListener.remove();
+    };
+  }, []);
 
   const { login } = useAuth();
   const path = usePathname();
@@ -49,17 +71,17 @@ const Login = () => {
         behavior={Platform.OS === "ios" ? "padding" : undefined}
       >
         <Modal animationType="slide" transparent={true}>
-          <View className="h-screen w-screen flex flex-1 justify-center items-center">
+          <View className={`h-screen w-screen flex flex-1 ${keyBoardVisible ? "justify-start" : "justify-center"} items-center absolute`}>
             <Image
               source={require("../../../../public/login-bg.png")}
               className="w-full h-full absolute -z-10"
             />
-            <View className="border-2 border-white w-11/12 h-5/6 rounded-xl bg-gray-900">
+            <View className="border-2 border-white w-11/12 h-4/5 rounded-xl bg-gray-900 relative">
               <Image
                 source={require("../../../../public/img/lg-pic.png")}
                 className="w-full h-1/4 rounded-t-xl"
               />
-              <ScrollView className="h-3/5 w-full flex flex-col justify-center items-center gap-6 sm:gap-10 absolute top-[28%]">
+              <View className="h-3/5 w-full flex flex-col justify-center items-center gap-6 sm:gap-10 absolute top-[28%]">
                 <Text className="tracking-widest text-4xl font-bold text-gray-300 ">
                   Login to Continue
                 </Text>
@@ -133,18 +155,20 @@ const Login = () => {
                     </Text>
                   </Pressable>
                 )}
-              </ScrollView>
+              </View>
             </View>
           </View>
-          <Text className="text-gray-300 text-lg font-semibold absolute bottom-20 text-center bg-gray-600 py-3 px-8 rounded-r-full">
-            No account yet?{" "}
-            <Text
-              onPress={() => router.replace("/auth/register")}
-              className="text-green-400 text-lg"
-            >
-              Register Now!
+          {!keyBoardVisible && (
+            <Text className="text-gray-300 text-lg font-semibold absolute bottom-10 text-center bg-gray-600 py-3 px-8 rounded-r-full">
+              No account yet?{" "}
+              <Text
+                onPress={() => router.replace("/auth/register")}
+                className="text-green-400 text-lg"
+              >
+                Register Now!
+              </Text>
             </Text>
-          </Text>
+          )}
         </Modal>
       </KeyboardAvoidingView>
     </>
