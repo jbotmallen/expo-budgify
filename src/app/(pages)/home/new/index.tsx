@@ -41,7 +41,7 @@ export default function Add() {
   const [showDatePicker, setShowDatePicker] = useState(false);
 
   const handlePress = (item: string) => {
-    if(formValues.value.length > 9) return Alert.alert("Attention!", "Value exceeds maximum length.");
+    if(formValues.value.length > 5) return Alert.alert("Attention!", "Value exceeds maximum length.");
     if (item !== ".") {
       setFormValues((prevValues) => ({
         ...prevValues,
