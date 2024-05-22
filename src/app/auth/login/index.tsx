@@ -12,6 +12,7 @@ import {
   KeyboardAvoidingView,
   Alert,
   ActivityIndicator,
+  ScrollView,
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 
@@ -58,7 +59,7 @@ const Login = () => {
                 source={require("../../../../public/img/lg-pic.png")}
                 className="w-full h-1/4 rounded-t-xl"
               />
-              <View className="h-3/5 w-full flex flex-col justify-center items-center gap-6 sm:gap-10 absolute top-[28%]">
+              <ScrollView className="h-3/5 w-full flex flex-col justify-center items-center gap-6 sm:gap-10 absolute top-[28%]">
                 <Text className="tracking-widest text-4xl font-bold text-gray-300 ">
                   Login to Continue
                 </Text>
@@ -132,7 +133,7 @@ const Login = () => {
                     </Text>
                   </Pressable>
                 )}
-              </View>
+              </ScrollView>
             </View>
           </View>
           <Text className="text-gray-300 text-lg font-semibold absolute bottom-20 text-center bg-gray-600 py-3 px-8 rounded-r-full">

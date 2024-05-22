@@ -9,6 +9,7 @@ import {
   ActivityIndicator,
   KeyboardAvoidingView,
   Platform,
+  ScrollView,
 } from "react-native";
 import React, { useState } from "react";
 import { router, usePathname } from "expo-router";
@@ -64,7 +65,7 @@ export default function Reset() {
               source={require("../../../../public/img/reset-pic.png")}
               className="w-full h-2/5 rounded-t-xl"
             />
-            <View className="h-2/5 w-full flex flex-col justify-center items-center gap-5">
+            <ScrollView className="h-2/5 w-full flex flex-col justify-center items-center gap-5">
               <Text className="text-4xl font-bold text-gray-200 mt-12">
                 Reset Password
               </Text>
@@ -91,7 +92,7 @@ export default function Reset() {
                   </Text>
                 </Pressable>
               </View>
-            </View>
+            </ScrollView>
           </View>
         </View>
       </KeyboardAvoidingView>

@@ -7,6 +7,7 @@ import {
   Modal,
   Platform,
   Pressable,
+  ScrollView,
   Text,
   TextInput,
   View,
@@ -57,7 +58,7 @@ const Register = () => {
                 source={require("../../../../public/img/rg-pic.png")}
                 className="w-full h-1/3 rounded-t-xl"
               />
-              <View className="h-3/5 w-full flex flex-col justify-center items-center gap-7">
+              <ScrollView className="h-3/5 w-full flex flex-col justify-center items-center gap-7">
                 <Text className="tracking-widest text-4xl font-bold text-gray-300">
                   Create an Account
                 </Text>
@@ -124,7 +125,7 @@ const Register = () => {
                     </Text>
                   </Pressable>
                 )}
-              </View>
+              </ScrollView>
             </View>
           </View>
         </KeyboardAvoidingView>
